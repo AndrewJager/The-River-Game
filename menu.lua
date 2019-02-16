@@ -56,11 +56,11 @@ myButton1 = uare.new({
 
 header = love.graphics.newImage("images/header.png")
 
-rays = rayHandler.createRay(500, 0, 0, 900, 0, 450, 600)
-rays.spreadX = 450
+rays = rayHandler.createRay(5, 175, 380, 175, 430, 280, 480)
+rays.spreadX = 45
 rays.spreadY = 0
-rays.colorA = {0.860, 0.825, 0.888, 0.2}
-rays.colorB = {0.860, 0.825, 0.888, 0.2}
+rays.colorA = {0.860, 0.760, 0.058, 0.1}
+rays.colorB = {0.990, 0.790, 0.058, 0.1}
 rayHandler.reCreateRay(rays)
 
 end

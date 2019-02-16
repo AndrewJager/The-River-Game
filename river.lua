@@ -27,6 +27,12 @@ zones.onBack = 0
 zones.onBelow = 0
 zones.onDock = 0
 
+local waterA = love.graphics.newImage("images/waterA.png")
+local waterB = love.graphics.newImage("images/waterB.png")
+local waterC = love.graphics.newImage("images/waterC.png")
+local water = waterA
+local waterUpdate = 0
+
 local function loadRiver(world)
     love.physics.setMeter(64) 
     world.physics = love.physics.newWorld(0, 9.81*64, true)
@@ -89,6 +95,19 @@ local function updateRiver(world, dt)
     rockerL.pBody:setLinearVelocity(world.boatSpeed,0.0)
     rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
 
+    local waterUpdateTime = 25
+    if waterUpdate >= waterUpdateTime then
+        if water == waterA then
+            water = waterB
+        elseif water == waterB then
+            water = waterC
+        elseif water == waterC then
+            water = waterA
+        end
+        waterUpdate = 0
+    else
+        waterUpdate = waterUpdate + 1
+    end
     playerGen.updatePlayer(world, dt, zones)
     catFish.update(world, dt, zones)
 
@@ -107,10 +126,14 @@ local function drawRiver(world)
         love.graphics.setColor(unpack(objects[i].color))
         love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
     end
-    love.graphics.setColor(0.074, 0.247, 0.141)
+    love.graphics.setColor(0.1, 0.1, 0.1)
     love.graphics.stencil(lightStencil, "replace", 1)
+    love.graphics.push()
+    love.graphics.translate(world.player.pBody:getX() - 450, 0)
+    love.graphics.scale(0.5,0.5)
     love.graphics.setStencilTest("equal", 0)
-    love.graphics.rectangle("fill", 0, 400, 2000, 400)
+    love.graphics.draw(water, -50, 750)
+    love.graphics.pop()
     love.graphics.setStencilTest()
 
     love.graphics.setFont(world.font)
