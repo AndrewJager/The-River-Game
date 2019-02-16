@@ -8,6 +8,7 @@ river = require "river"
 
 function love.load()
     love.window.setTitle("The River")
+    love.window.setMode(900, 650)
     river.load(world)
 end
 

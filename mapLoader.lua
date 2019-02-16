@@ -12,7 +12,7 @@ local function loadMap(physics)
     local mapObjects = utils.getByName("Object Layer 1", mapSrc.layers).objects
     for i = 1, #mapObjects do
         map.pObjects[i] = {}
-        map.pObjects.name = mapObjects.name
+        map.pObjects[i].name = mapObjects[i].name
         local x, y = utils.getMidPoint(mapObjects[i].x, mapObjects[i].y, mapObjects[i].width, mapObjects[i].height, mapObjects[i].rotation)
         map.pObjects[i].pBody = love.physics.newBody(physics, x, y, mapObjects[i].type)
         map.pObjects[i].color = utils.hex2rgb(mapObjects[i].properties.color)

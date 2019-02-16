@@ -1,6 +1,10 @@
 --Main map functions
 
 local river = {}
+local utils = require "utils"
+
+local boatGod = nil
+local deck = nil
 
 local function loadRiver(world)
     love.physics.setMeter(64) 
@@ -18,11 +22,17 @@ local function loadRiver(world)
             objects[i].pFixture:setUserData("player")
         end
     end
+
+    boatGod = utils.getByName("boatGod", objects)
+    deck = utils.getByName("Deck", objects)
+    deck.pBody:setAngularDamping(1.0)
+    local joint = love.physics.newRopeJoint(boatGod.pBody, deck.pBody, boatGod.pBody:getX(), boatGod.pBody:getY(), deck.pBody:getX(), deck.pBody:getY(), 350)
 end
 river.load = loadRiver
 
 local function updateRiver(world, dt)
-
+    boatGod.pBody:setLinearVelocity(25,0.0)
+    world.physics:update(dt)
 end
 river.update = updateRiver
 
