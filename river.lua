@@ -113,6 +113,7 @@ local function drawRiver(world)
     love.graphics.rectangle("fill", 0, 400, 2000, 400)
     love.graphics.setStencilTest()
 
+    love.graphics.setFont(world.font)
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
     love.graphics.setColor(0.4, 0.4, 0.4)
     love.graphics.rectangle("fill", 810, 15, 75, 75)

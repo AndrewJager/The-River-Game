@@ -3,23 +3,45 @@
 local world = {}
 world.map = {}
 world.keys = {}
+world.level = "menu"
+world.curLevel = "menu"
+world.btnFont = love.graphics.newFont(32)
+world.font = love.graphics.newFont(12)
 
 loader = require "mapLoader"
-river = require "river"
+local river = require "river"
+local menu = require "menu"
 
 function love.load()
     love.window.setTitle("The River")
     love.window.setMode(900, 650)
-    river.load(world)
+    menu.load(world)
 end
 
 function love.update(dt)
     world.keys = getInput()
-    river.update(world, dt)
+    if world.level == "menu" then
+        menu.update(dt)
+    elseif world.level == "river" then
+        river.update(world, dt)
+    end
+
+    if world.level ~= world.curLevel then
+        if world.level == "menu" then
+            menu.load(world)
+        elseif world.level == "river" then
+            river.load(world)
+        end
+        world.curLevel = world.level
+    end
 end
 
 function love.draw()
-    river.draw(world)
+    if world.level == "menu" then
+        menu.draw()
+    elseif world.level == "river" then
+        river.draw(world)
+    end
 end
 
 function getInput()
