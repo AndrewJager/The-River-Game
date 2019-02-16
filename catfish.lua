@@ -22,7 +22,7 @@ local function createCatfish(world)
     catFish.canJump = true
     catFish.fish = {}
     local fish = catFish.fish
-    fish.pBody = love.physics.newBody(world.physics, catFish.tarC.pBody:getX(), catFish.tarC.pBody:getY(), "kinematic")
+    fish.pBody = love.physics.newBody(world.physics, catFish.tarE.pBody:getX(), catFish.tarE.pBody:getY(), "kinematic")
     catFish.startY = fish.pBody:getY()
     fish.shape = love.physics.newCircleShape(35)
     fish.fixture = love.physics.newFixture(fish.pBody, fish.shape, 1) 

@@ -25,16 +25,18 @@ zones.inLight = 0
 zones.onProw = 0
 zones.onBack = 0
 zones.onBelow = 0
+zones.onDock = 0
 
 local function loadRiver(world)
     love.physics.setMeter(64) 
     world.physics = love.physics.newWorld(0, 9.81*64, true)
     world.physics:setCallbacks(beginCallback, endCallback)
     world.map = loader.load(world.physics)
-    world.helpText = ""
+    world.helpText = "Arrow keys to move"
     world.boatSpeed = 0
     world.lampAngle = 0
     world.lampOn = false
+    world.message = ""
 
     world.player = playerGen.loadPlayer(world)
     worldCopy = world
@@ -112,8 +114,20 @@ local function drawRiver(world)
     love.graphics.setStencilTest()
 
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(world.helpText.."  "..world.catFish.state.." "..world.catFish.update, 25, 610)
+    love.graphics.setColor(0.4, 0.4, 0.4)
+    love.graphics.rectangle("fill", 810, 15, 75, 75)
+    if world.helpText ~= "" then
+        love.graphics.rectangle("fill", 150, 15, 600, 25)
+        love.graphics.setColor(1,1,1)
+        love.graphics.print(world.helpText, 155, 20)
+    end
+    if world.message ~= "" then
+        love.graphics.setColor(0.4, 0.4, 0.4)
+        love.graphics.rectangle("fill", 150, 50, 600, 60)
+        love.graphics.setColor(1,1,1)
+        love.graphics.print(world.message, 155, 55)
+        love.graphics.print("(press h to hide)", 155, 90)
+    end
 end
 river.draw = drawRiver
 
@@ -129,6 +143,10 @@ function beginCallback(a, b, col)
             zones.inLight = zones.inLight + 1
         elseif a:getUserData() == "belowZone" or b:getUserData() == "belowZone" then
             zones.onBelow = zones.onBelow + 1
+        elseif a:getUserData() == "dockZone" or b:getUserData() == "dockZone" then
+            zones.onDock = zones.onDock + 1
+        elseif a:getUserData() == "catfish" or b:getUserData() == "catfish" then
+            worldCopy.player.dead = true
         end
     end
 
@@ -149,6 +167,8 @@ function endCallback(a, b, col)
             zones.onBelow = zones.onBelow - 1
         elseif a:getUserData() == "lightZone" or b:getUserData() == "lightZone" then
             zones.inLight = zones.inLight - 1
+        elseif a:getUserData() == "dockZone" or b:getUserData() == "dockZone" then
+            zones.onDock = zones.onDock - 1
         end
     end
 

@@ -33,6 +33,7 @@ function getInput()
     keys.z = love.keyboard.isDown("z")
     keys.x = love.keyboard.isDown("x")
     keys.c = love.keyboard.isDown("c")
+    keys.h = love.keyboard.isDown("h")
 
     return keys
 end

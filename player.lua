@@ -4,12 +4,14 @@ local player = {}
 
 local function loadPlayer(world)
     local player = {} --Create player
-    player.pBody = love.physics.newBody(world.physics, 400, 350, "dynamic")
+    player.pBody = love.physics.newBody(world.physics, 50, 350, "dynamic")
     player.pBody:setFixedRotation(true)
     player.shape = love.physics.newCircleShape(20)
     player.fixture = love.physics.newFixture(player.pBody, player.shape, 1) 
     player.fixture:setUserData("player")
     player.fixture:setFriction(2.0)
+    player.dead = false
+    player.tool = ""
     return player
 end
 player.loadPlayer = loadPlayer
@@ -31,7 +33,7 @@ local function updatePlayer(world, dt, zones)
 
     --actions
     if zones.inLight >= 1 then
-        world.helpText = "Press Z and X to rotate light. Press A and D to drive boat"
+        world.helpText = "Press Z and X to rotate light. C to turn light on/off. Press A and D to drive boat"
         if world.keys.c == false then
             world.cReleased = true
         end
@@ -64,9 +66,15 @@ local function updatePlayer(world, dt, zones)
         end
     elseif zones.onBelow >= 1 then
         world.helpText = "choose tool"
+    elseif zones.onDock >= 1 then
+        world.helpText = "Arrow keys to move and jump"
     else
         world.helpText = ""
         world.boatSpeed = 0
+    end
+
+    if world.keys.h then
+        world.message = ""
     end
 end
 player.updatePlayer = updatePlayer

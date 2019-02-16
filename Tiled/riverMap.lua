@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 3,
-  nextobjectid = 24,
+  nextobjectid = 29,
   properties = {},
   tilesets = {},
   layers = {
@@ -387,6 +387,96 @@ return {
             ["LockRot"] = true,
             ["color"] = "#9400ff11",
             ["data"] = "",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 24,
+          name = "Dock",
+          type = "static",
+          shape = "rectangle",
+          x = -162.5,
+          y = 360.167,
+          width = 275.667,
+          height = 21,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff581504",
+            ["data"] = "boat",
+            ["isTrigger"] = false
+          }
+        },
+        {
+          id = 25,
+          name = "leg",
+          type = "static",
+          shape = "rectangle",
+          x = 22.816,
+          y = 380.057,
+          width = 189,
+          height = 21,
+          rotation = 118.777,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff581504",
+            ["data"] = "boat",
+            ["isTrigger"] = false
+          }
+        },
+        {
+          id = 26,
+          name = "leg",
+          type = "static",
+          shape = "rectangle",
+          x = 109.5,
+          y = 379.167,
+          width = 189,
+          height = 21,
+          rotation = 118.777,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff581504",
+            ["data"] = "dock",
+            ["isTrigger"] = false
+          }
+        },
+        {
+          id = 27,
+          name = "wall",
+          type = "static",
+          shape = "rectangle",
+          x = -46.9262,
+          y = 365.178,
+          width = 357,
+          height = 21,
+          rotation = -90,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff581504",
+            ["data"] = "wall",
+            ["isTrigger"] = false
+          }
+        },
+        {
+          id = 28,
+          name = "dockZone",
+          type = "static",
+          shape = "rectangle",
+          x = -23.3335,
+          y = 286.5,
+          width = 134.667,
+          height = 72.333,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#50ff1d00",
+            ["data"] = "dockZone",
             ["isTrigger"] = true
           }
         }
