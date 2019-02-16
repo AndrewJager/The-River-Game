@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="29" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="3" nextobjectid="17">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="29" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="3" nextobjectid="24">
  <layer id="1" name="Tile Layer 1" width="29" height="20">
   <data encoding="csv"/>
  </layer>
@@ -18,7 +18,7 @@
     <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="4" type="dynamic" x="-31.1667" y="525.833" width="157.048" height="51.9674">
+  <object id="4" type="dynamic" x="497.833" y="551.833" width="157.048" height="51.9674">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
@@ -90,7 +90,7 @@
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="15" name="lightZone" type="dynamic" x="472.5" y="138.5" width="109" height="88">
+  <object id="15" name="lightZone" type="dynamic" x="507.5" y="191.5" width="74" height="35">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#94ff1d00"/>
@@ -103,6 +103,54 @@
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#94ff1d00"/>
     <property name="data" value="belowZone"/>
+    <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="17" name="catTarC" type="dynamic" x="445" y="525" width="23" height="20">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#9400ff11"/>
+    <property name="data" value="catTar"/>
+    <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="19" name="catTarD" type="dynamic" x="852.5" y="525" width="23" height="20">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#9400ff11"/>
+    <property name="data" value="catTar"/>
+    <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="20" name="catTarA" type="dynamic" x="-110.5" y="525" width="23" height="20">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#9400ff11"/>
+    <property name="data" value="catTar"/>
+    <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="21" name="catTarE" type="dynamic" x="1206.5" y="525" width="23" height="20">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#9400ff11"/>
+    <property name="data" value="catTar"/>
+    <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="22" name="catTarB" type="dynamic" x="108.5" y="525" width="23" height="20">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#9400ff11"/>
+    <property name="data" value="catTar"/>
+    <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="23" name="targetGod" type="kinematic" x="515.167" y="494" width="63" height="20">
+   <properties>
+    <property name="LockRot" type="bool" value="true"/>
+    <property name="color" type="color" value="#9400ff11"/>
+    <property name="data" value=""/>
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
   </object>

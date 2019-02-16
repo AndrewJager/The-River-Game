@@ -3,6 +3,7 @@
 local river = {}
 local utils = require "utils"
 local playerGen = require "player"
+local catFish = require "catfish"
 local worldCopy = {} --Hacky, but I don't care
 
 local boatGod = nil
@@ -48,6 +49,8 @@ local function loadRiver(world)
         end
     end
 
+    world.catFish = catFish.load(world)
+
     boatGod = utils.getByName("boatGod", objects)
     deck = utils.getByName("Deck", objects)
     deck.pBody:setAngularDamping(10.0)
@@ -85,6 +88,7 @@ local function updateRiver(world, dt)
     rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
 
     playerGen.updatePlayer(world, dt, zones)
+    catFish.update(world, dt)
 
     world.physics:update(dt)
 end
@@ -94,6 +98,7 @@ local function drawRiver(world)
     love.graphics.translate(-world.player.pBody:getX() + 450, 0)
     love.graphics.setColor(0.76, 0.18, 0.05)
     love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
+    love.graphics.circle("fill", world.catFish.fish.pBody:getX(), world.catFish.fish.pBody:getY(), world.catFish.fish.shape:getRadius())
 
     local objects = world.map.pObjects
     for i=1, #objects do
@@ -108,7 +113,7 @@ local function drawRiver(world)
 
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
     love.graphics.setColor(1,1,1)
-    love.graphics.print(world.helpText, 25, 610)
+    love.graphics.print(world.helpText.."  "..world.catFish.state.." "..world.catFish.update, 25, 610)
 end
 river.draw = drawRiver
 
@@ -126,6 +131,10 @@ function beginCallback(a, b, col)
             zones.onBelow = zones.onBelow + 1
         end
     end
+
+    if a:getUserData() == "catfish" or b:getUserData() == "catTar" then
+        
+    end
 end
 
 function endCallback(a, b, col)
@@ -141,6 +150,10 @@ function endCallback(a, b, col)
         elseif a:getUserData() == "lightZone" or b:getUserData() == "lightZone" then
             zones.inLight = zones.inLight - 1
         end
+    end
+
+    if a:getUserData() == "catfish" or b:getUserData() == "catfish" then
+       
     end
 end
 

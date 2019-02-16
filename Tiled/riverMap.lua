@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 3,
-  nextobjectid = 17,
+  nextobjectid = 24,
   properties = {},
   tilesets = {},
   layers = {
@@ -79,8 +79,8 @@ return {
           name = "",
           type = "dynamic",
           shape = "rectangle",
-          x = -31.1667,
-          y = 525.833,
+          x = 497.833,
+          y = 551.833,
           width = 157.048,
           height = 51.9674,
           rotation = 0,
@@ -104,22 +104,6 @@ return {
           properties = {
             ["LockRot"] = true,
             ["color"] = "#ff154bff"
-          }
-        },
-        {
-          id = 6,
-          name = "Track",
-          type = "static",
-          shape = "rectangle",
-          x = 0,
-          y = 34.1667,
-          width = 2000,
-          height = 18.3333,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["LockRot"] = false,
-            ["color"] = "#ffceff72"
           }
         },
         {
@@ -267,10 +251,10 @@ return {
           name = "lightZone",
           type = "dynamic",
           shape = "rectangle",
-          x = 472.5,
-          y = 138.5,
-          width = 109,
-          height = 88,
+          x = 507.5,
+          y = 191.5,
+          width = 74,
+          height = 35,
           rotation = 0,
           visible = true,
           properties = {
@@ -295,6 +279,114 @@ return {
             ["LockRot"] = false,
             ["color"] = "#94ff1d00",
             ["data"] = "belowZone",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 17,
+          name = "catTarC",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 445,
+          y = 525,
+          width = 23,
+          height = 20,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#9400ff11",
+            ["data"] = "catTarC",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 19,
+          name = "catTarD",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 852.5,
+          y = 525,
+          width = 23,
+          height = 20,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#9400ff11",
+            ["data"] = "catTarD",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 20,
+          name = "catTarA",
+          type = "dynamic",
+          shape = "rectangle",
+          x = -110.5,
+          y = 525,
+          width = 23,
+          height = 20,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#9400ff11",
+            ["data"] = "catTarA",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 21,
+          name = "catTarE",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 1206.5,
+          y = 525,
+          width = 23,
+          height = 20,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#9400ff11",
+            ["data"] = "catTarE",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 22,
+          name = "catTarB",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 108.5,
+          y = 525,
+          width = 23,
+          height = 20,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#9400ff11",
+            ["data"] = "catTarB",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 23,
+          name = "targetGod",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 515.167,
+          y = 494,
+          width = 63,
+          height = 20,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = true,
+            ["color"] = "#9400ff11",
+            ["data"] = "",
             ["isTrigger"] = true
           }
         }
