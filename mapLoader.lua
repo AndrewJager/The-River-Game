@@ -16,13 +16,9 @@ local function loadMap(physics)
         local x, y = utils.getMidPoint(mapObjects[i].x, mapObjects[i].y, mapObjects[i].width, mapObjects[i].height, mapObjects[i].rotation)
         map.pObjects[i].pBody = love.physics.newBody(physics, x, y, mapObjects[i].type)
         map.pObjects[i].color = utils.hex2rgb(mapObjects[i].properties.color)
-		map.pObjects[i].canJump = mapObjects[i].properties.canJump
 		map.pObjects[i].pShape = love.physics.newRectangleShape(0,0, mapObjects[i].width, mapObjects[i].height, math.rad(mapObjects[i].rotation))
 		map.pObjects[i].pFixRotation = mapObjects[i].properties.LockRot
-		if mapObjects[i].name == "Player" then
-			player.physics = map.pObjects[i].pBody
-			player.radius = (mapObjects[i].width / 2)
-		end
+        map.pObjects[i].data = mapObjects[i].properties.data
     end
     return map
 end

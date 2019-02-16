@@ -9,22 +9,30 @@ local deckBack = nil
 local prow = nil
 local platform = nil
 local platformB = nil
+local rockerL = nil
+local rockerR = nil
+
+local footing = 0
 
 local function loadRiver(world)
     love.physics.setMeter(64) 
     world.physics = love.physics.newWorld(0, 9.81*64, true)
+    world.physics:setCallbacks(beginCallback, endCallback)
     world.map = loader.load(world.physics)
+
+    world.player = {} --Create player
+    world.player.pBody = love.physics.newBody(world.physics, 400, 350, "dynamic")
+    world.player.shape = love.physics.newCircleShape(20)
+    world.player.fixture = love.physics.newFixture(world.player.pBody, world.player.shape, 1) 
+    world.player.fixture:setUserData("player")
 
     local objects = world.map.pObjects
     for i=1, #objects do
         objects[i].pFixture = love.physics.newFixture(objects[i].pBody, objects[i].pShape, 2.0)
         objects[i].pBody:setFixedRotation(objects[i].pFixRotation)
         objects[i].pBody:setSleepingAllowed(false)
-        if objects[i].canJump then
-            objects[i].pFixture:setUserData("ground")
-        elseif objects[i].name == "Player" then
-            objects[i].pFixture:setUserData("player")
-        end
+        objects[i].pFixture:setUserData(objects[i].data)
+       
     end
 
     boatGod = utils.getByName("boatGod", objects)
@@ -34,8 +42,12 @@ local function loadRiver(world)
     prow = utils.getByName("Prow", objects)
     platform = utils.getByName("Platform", objects)
     platformB = utils.getByName("Platform2", objects)
+    rockerL = utils.getByName("rockerL", objects)
+    rockerR = utils.getByName("rockerR", objects)
 
-    local rope = love.physics.newRopeJoint(boatGod.pBody, deck.pBody, boatGod.pBody:getX(), boatGod.pBody:getY(), deck.pBody:getX(), deck.pBody:getY(), 550)
+    local rope = love.physics.newRopeJoint(boatGod.pBody, deck.pBody, boatGod.pBody:getX(), boatGod.pBody:getY(), deck.pBody:getX(), deck.pBody:getY(), 350)
+    local rope2 = love.physics.newRopeJoint(rockerL.pBody, deck.pBody, rockerL.pBody:getX(), rockerL.pBody:getY(), rockerL.pBody:getX(), deck.pBody:getY(), 350)
+    local rope3 = love.physics.newRopeJoint(rockerR.pBody, deck.pBody, rockerR.pBody:getX(), rockerR.pBody:getY(), rockerR.pBody:getX(), deck.pBody:getY(), 350)
     local weld = love.physics.newWeldJoint(deck.pBody, deckBack.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld2 = love.physics.newWeldJoint(deck.pBody, prow.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld3 = love.physics.newWeldJoint(deck.pBody, platform.pBody, deck.pBody:getX(), deck.pBody:getY())
@@ -45,18 +57,57 @@ river.load = loadRiver
 
 local function updateRiver(world, dt)
     boatGod.pBody:setLinearVelocity(25,0.0)
+    rockerL.pBody:setLinearVelocity(25, 0)
+    rockerR.pBody:setLinearVelocity(25, 0)
     deckBack.pBody:applyForce(0, 1000)
+
+    local player = world.player
+    local x, y = player.pBody:getLinearVelocity()
+    local speed = 150
+    if world.keys.right then
+        player.pBody:setLinearVelocity(speed, y)
+    elseif world.keys.left then
+        player.pBody:setLinearVelocity(-speed, y)
+    end
+    if footing >= 1 then
+        if world.keys.up then
+            player.pBody:applyForce(0, -1000)
+        end
+    end
+
     world.physics:update(dt)
 end
 river.update = updateRiver
 
 local function drawRiver(world)
+    love.graphics.setColor(0.76, 0.18, 0.05)
+    love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
+
     local objects = world.map.pObjects
     for i=1, #objects do
         love.graphics.setColor(unpack(objects[i].color))
         love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
     end
+
+    love.graphics.print(footing)
 end
 river.draw = drawRiver
+
+function beginCallback(a, b, col)
+    if a:getUserData() == "player" or b:getUserData() == "player" then
+        if a:getUserData() == "boat" or b:getUserData() == "boat" then
+            footing = footing + 1
+        end
+    end
+end
+
+function endCallback(a, b, col)
+    if a:getUserData() == "player" or b:getUserData() == "player" then
+        if a:getUserData() == "boat" or b:getUserData() == "boat" then
+            footing = footing - 1
+        end
+    end
+end
+
 
 return river

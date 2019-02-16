@@ -2,6 +2,7 @@
 
 local world = {}
 world.map = {}
+world.keys = {}
 
 loader = require "mapLoader"
 river = require "river"
@@ -13,9 +14,20 @@ function love.load()
 end
 
 function love.update(dt)
+    world.keys = getInput()
     river.update(world, dt)
 end
 
 function love.draw()
     river.draw(world)
+end
+
+function getInput()
+    local keys = {}
+    keys.right = love.keyboard.isDown("right")
+	keys.left = love.keyboard.isDown("left")
+	keys.up = love.keyboard.isDown("up")
+    keys.down = love.keyboard.isDown("down")
+
+    return keys
 end
