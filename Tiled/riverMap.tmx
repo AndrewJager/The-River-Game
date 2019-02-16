@@ -34,7 +34,7 @@
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
-    <property name="data" value="boat"/>
+    <property name="data" value="boatWall"/>
     <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
@@ -58,7 +58,7 @@
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
-    <property name="data" value="boat"/>
+    <property name="data" value="boatWall"/>
     <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
@@ -74,18 +74,18 @@
     <property name="color" type="color" value="#ff154bff"/>
    </properties>
   </object>
-  <object id="13" name="prowZone" type="dynamic" x="676.5" y="229.5" width="109" height="119">
+  <object id="13" name="prowZone" type="dynamic" x="628.5" y="220.167" width="157" height="128.333">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
-    <property name="color" type="color" value="#94ff1d00"/>
+    <property name="color" type="color" value="#50ff1d00"/>
     <property name="data" value="prowZone"/>
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="14" name="backZone" type="dynamic" x="181.5" y="246.5" width="96" height="103">
+  <object id="14" name="backZone" type="dynamic" x="181.5" y="229.167" width="166.667" height="120.333">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
-    <property name="color" type="color" value="#94ff1d00"/>
+    <property name="color" type="color" value="#50ff1d00"/>
     <property name="data" value="backZone"/>
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
@@ -93,7 +93,7 @@
   <object id="15" name="lightZone" type="dynamic" x="507.5" y="191.5" width="74" height="35">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
-    <property name="color" type="color" value="#94ff1d00"/>
+    <property name="color" type="color" value="#50ff1d00"/>
     <property name="data" value="lightZone"/>
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
@@ -101,7 +101,7 @@
   <object id="16" name="belowZone" type="dynamic" x="472.5" y="251" width="109" height="88">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
-    <property name="color" type="color" value="#94ff1d00"/>
+    <property name="color" type="color" value="#50ff1d00"/>
     <property name="data" value="belowZone"/>
     <property name="isTrigger" type="bool" value="true"/>
    </properties>

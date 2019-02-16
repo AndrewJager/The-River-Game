@@ -120,7 +120,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat",
+            ["data"] = "boatWall",
             ["isTrigger"] = false
           }
         },
@@ -174,7 +174,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat",
+            ["data"] = "boatWall",
             ["isTrigger"] = false
           }
         },
@@ -215,15 +215,15 @@ return {
           name = "prowZone",
           type = "dynamic",
           shape = "rectangle",
-          x = 676.5,
-          y = 229.5,
-          width = 109,
-          height = 119,
+          x = 628.5,
+          y = 220.167,
+          width = 157,
+          height = 128.333,
           rotation = 0,
           visible = true,
           properties = {
             ["LockRot"] = false,
-            ["color"] = "#94ff1d00",
+            ["color"] = "#50ff1d00",
             ["data"] = "prowZone",
             ["isTrigger"] = true
           }
@@ -234,14 +234,14 @@ return {
           type = "dynamic",
           shape = "rectangle",
           x = 181.5,
-          y = 246.5,
-          width = 96,
-          height = 103,
+          y = 229.167,
+          width = 166.667,
+          height = 120.333,
           rotation = 0,
           visible = true,
           properties = {
             ["LockRot"] = false,
-            ["color"] = "#94ff1d00",
+            ["color"] = "#50ff1d00",
             ["data"] = "backZone",
             ["isTrigger"] = true
           }
@@ -259,7 +259,7 @@ return {
           visible = true,
           properties = {
             ["LockRot"] = false,
-            ["color"] = "#94ff1d00",
+            ["color"] = "#50ff1d00",
             ["data"] = "lightZone",
             ["isTrigger"] = true
           }
@@ -277,7 +277,7 @@ return {
           visible = true,
           properties = {
             ["LockRot"] = false,
-            ["color"] = "#94ff1d00",
+            ["color"] = "#50ff1d00",
             ["data"] = "belowZone",
             ["isTrigger"] = true
           }
@@ -296,7 +296,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#9400ff11",
-            ["data"] = "catTarC",
+            ["data"] = "catTar",
             ["isTrigger"] = true
           }
         },
@@ -314,7 +314,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#9400ff11",
-            ["data"] = "catTarD",
+            ["data"] = "catTar",
             ["isTrigger"] = true
           }
         },
@@ -332,7 +332,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#9400ff11",
-            ["data"] = "catTarA",
+            ["data"] = "catTar",
             ["isTrigger"] = true
           }
         },
@@ -350,7 +350,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#9400ff11",
-            ["data"] = "catTarE",
+            ["data"] = "catTar",
             ["isTrigger"] = true
           }
         },
@@ -368,7 +368,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#9400ff11",
-            ["data"] = "catTarB",
+            ["data"] = "catTar",
             ["isTrigger"] = true
           }
         },

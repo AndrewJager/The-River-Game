@@ -19,6 +19,7 @@ local function createCatfish(world)
     catFish.atBack = false
     catFish.jumping = false
     catFish.attack = false
+    catFish.canJump = true
     catFish.fish = {}
     local fish = catFish.fish
     fish.pBody = love.physics.newBody(world.physics, catFish.tarC.pBody:getX(), catFish.tarC.pBody:getY(), "kinematic")
@@ -75,12 +76,13 @@ local function updateCatfish(world, dt, zones)
         else
             xVel = -75
         end
-
-        world.catFish.fish.pBody:setLinearVelocity(xVel, -350)
-        world.catFish.jumping = true
-        world.catFish.attack = true
-        world.catFish.state = "jump"
-        world.catFish.moving = true
+        if world.catFish.canJump then
+            world.catFish.fish.pBody:setLinearVelocity(xVel, -350)
+            world.catFish.jumping = true
+            world.catFish.attack = true
+            world.catFish.state = "jump"
+            world.catFish.moving = true
+        end
     end
     local catFish = world.catFish
     local updateThreshold = 1
@@ -158,6 +160,10 @@ local function updateCatfish(world, dt, zones)
     else
         catFish.attack = false
     end
+    if catFish.fish.pBody:getY() < 200 then
+        catFish.canJump = false
+        catFish.attack = false
+    end
 
     if catFish.jumping and not(catFish.attack) then --Get fish back down
 
@@ -168,6 +174,7 @@ local function updateCatfish(world, dt, zones)
             catFish.fish.pBody:setLinearVelocity(0.0, 0.0)
             catFish.state = "idle"
             catFish.moving = false
+            catFish.canJump = true
         end
     end
 
