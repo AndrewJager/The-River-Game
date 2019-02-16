@@ -86,6 +86,7 @@ end
 river.update = updateRiver
 
 local function drawRiver(world)
+    love.graphics.translate(-world.player.pBody:getX() + 450, 0)
     love.graphics.setColor(0.76, 0.18, 0.05)
     love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
 
@@ -95,6 +96,9 @@ local function drawRiver(world)
         love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
     end
     love.graphics.setColor(255,255,255)
+
+    
+    love.graphics.translate(world.player.pBody:getX() - 450, 0)
     love.graphics.print(world.helpText, 25, 610)
 end
 river.draw = drawRiver
