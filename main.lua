@@ -28,6 +28,8 @@ function getInput()
 	keys.left = love.keyboard.isDown("left")
 	keys.up = love.keyboard.isDown("up")
     keys.down = love.keyboard.isDown("down")
+    keys.a = love.keyboard.isDown("a")
+    keys.d = love.keyboard.isDown("d")
 
     return keys
 end

@@ -2,6 +2,7 @@
 
 local river = {}
 local utils = require "utils"
+local playerGen = require "player"
 
 local boatGod = nil
 local deck = nil
@@ -16,24 +17,22 @@ local backZone = nil
 local lightZone = nil
 local belowZone = nil
 
-local footing = 0
-local inLight = 0
-local onProw = 0
-local onBack = 0
-local onBelow = 0
+local zones = {}
+zones.footing = 0
+zones.inLight = 0
+zones.onProw = 0
+zones.onBack = 0
+zones.onBelow = 0
 
 local function loadRiver(world)
     love.physics.setMeter(64) 
     world.physics = love.physics.newWorld(0, 9.81*64, true)
     world.physics:setCallbacks(beginCallback, endCallback)
     world.map = loader.load(world.physics)
+    world.helpText = ""
+    world.boatSpeed = 0
 
-    world.player = {} --Create player
-    world.player.pBody = love.physics.newBody(world.physics, 400, 350, "dynamic")
-    world.player.shape = love.physics.newCircleShape(20)
-    world.player.fixture = love.physics.newFixture(world.player.pBody, world.player.shape, 1) 
-    world.player.fixture:setUserData("player")
-
+    world.player = playerGen.loadPlayer(world)
     local objects = world.map.pObjects
     for i=1, #objects do
         objects[i].pFixture = love.physics.newFixture(objects[i].pBody, objects[i].pShape, 2.0)
@@ -47,7 +46,8 @@ local function loadRiver(world)
 
     boatGod = utils.getByName("boatGod", objects)
     deck = utils.getByName("Deck", objects)
-    deck.pBody:setAngularDamping(1.0)
+    deck.pBody:setAngularDamping(10.0)
+    deck.pFixture:setDensity(15)
     deckBack = utils.getByName("DeckBack", objects)
     prow = utils.getByName("Prow", objects)
     platform = utils.getByName("Platform", objects)
@@ -74,24 +74,12 @@ end
 river.load = loadRiver
 
 local function updateRiver(world, dt)
-    boatGod.pBody:setLinearVelocity(25,0.0)
-    rockerL.pBody:setLinearVelocity(25, 0)
-    rockerR.pBody:setLinearVelocity(25, 0)
+    boatGod.pBody:setLinearVelocity(world.boatSpeed,0.0)
+    rockerL.pBody:setLinearVelocity(world.boatSpeed,0.0)
+    rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
     deckBack.pBody:applyForce(0, 1000)
 
-    local player = world.player
-    local x, y = player.pBody:getLinearVelocity()
-    local speed = 150
-    if world.keys.right then
-        player.pBody:setLinearVelocity(speed, y)
-    elseif world.keys.left then
-        player.pBody:setLinearVelocity(-speed, y)
-    end
-    if footing >= 1 then
-        if world.keys.up then
-            player.pBody:applyForce(0, -1000)
-        end
-    end
+    playerGen.updatePlayer(world, dt, zones)
 
     world.physics:update(dt)
 end
@@ -106,23 +94,23 @@ local function drawRiver(world)
         love.graphics.setColor(unpack(objects[i].color))
         love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
     end
-
-    love.graphics.print(footing.." "..inLight.." "..onBack.." "..onProw.." "..onBelow)
+    love.graphics.setColor(255,255,255)
+    love.graphics.print(world.helpText, 25, 610)
 end
 river.draw = drawRiver
 
 function beginCallback(a, b, col)
     if a:getUserData() == "player" or b:getUserData() == "player" then
         if a:getUserData() == "boat" or b:getUserData() == "boat" then
-            footing = footing + 1
+            zones.footing = zones.footing + 1
         elseif a:getUserData() == "prowZone" or b:getUserData() == "prowZone" then
-            onProw = onProw + 1
+            zones.onProw = zones.onProw + 1
         elseif a:getUserData() == "backZone" or b:getUserData() == "backZone" then
-            onBack = onBack + 1
+            zones.onBack = zones.onBack + 1
         elseif a:getUserData() == "lightZone" or b:getUserData() == "lightZone" then
-            inLight = inLight + 1
+            zones.inLight = zones.inLight + 1
         elseif a:getUserData() == "belowZone" or b:getUserData() == "belowZone" then
-            onBelow = onBelow + 1
+            zones.onBelow = zones.onBelow + 1
         end
     end
 end
@@ -130,13 +118,15 @@ end
 function endCallback(a, b, col)
     if a:getUserData() == "player" or b:getUserData() == "player" then
         if a:getUserData() == "boat" or b:getUserData() == "boat" then
-            footing = footing - 1
+            zones.footing = zones.footing - 1
         elseif a:getUserData() == "prowZone" or b:getUserData() == "prowZone" then
-            onProw = onProw - 1
+            zones.onProw = zones.onProw - 1
         elseif a:getUserData() == "backZone" or b:getUserData() == "backZone" then
-            onBack = onBack - 1
+            zones.onBack = zones.onBack - 1
         elseif a:getUserData() == "belowZone" or b:getUserData() == "belowZone" then
-            onBelow = onBelow - 1
+            zones.onBelow = zones.onBelow - 1
+        elseif a:getUserData() == "lightZone" or b:getUserData() == "lightZone" then
+            zones.inLight = zones.inLight - 1
         end
     end
 end
