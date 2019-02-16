@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 3,
-  nextobjectid = 7,
+  nextobjectid = 11,
   properties = {},
   tilesets = {},
   layers = {
@@ -61,8 +61,8 @@ return {
           name = "Deck",
           type = "dynamic",
           shape = "rectangle",
-          x = 251.054,
-          y = 248.477,
+          x = 217.054,
+          y = 514.477,
           width = 501,
           height = 45,
           rotation = 0,
@@ -77,8 +77,8 @@ return {
           name = "",
           type = "dynamic",
           shape = "rectangle",
-          x = 178.833,
-          y = 72.8333,
+          x = 16.8333,
+          y = 472.833,
           width = 157.048,
           height = 51.9674,
           rotation = 0,
@@ -118,6 +118,70 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ffceff72"
+          }
+        },
+        {
+          id = 7,
+          name = "DeckBack",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 193.856,
+          y = 473.507,
+          width = 41,
+          height = 69,
+          rotation = -17.9698,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff30ff22"
+          }
+        },
+        {
+          id = 8,
+          name = "Prow",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 692.065,
+          y = 520.371,
+          width = 116,
+          height = 26,
+          rotation = -36.3115,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff30ff22"
+          }
+        },
+        {
+          id = 9,
+          name = "Platform",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 482,
+          y = 398,
+          width = 116,
+          height = 26,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff30ff22"
+          }
+        },
+        {
+          id = 10,
+          name = "Platform2",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 570,
+          y = 366,
+          width = 29,
+          height = 57,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff30ff22"
           }
         }
       }
