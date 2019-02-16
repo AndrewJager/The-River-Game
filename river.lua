@@ -88,7 +88,7 @@ local function updateRiver(world, dt)
     rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
 
     playerGen.updatePlayer(world, dt, zones)
-    catFish.update(world, dt)
+    catFish.update(world, dt, zones)
 
     world.physics:update(dt)
 end

@@ -15,9 +15,14 @@ local function createCatfish(world)
     catFish.speed = 35
     catFish.update = 0 --Time before catfish changes state
     catFish.moving = false
+    catFish.atProw = false
+    catFish.atBack = false
+    catFish.jumping = false
+    catFish.attack = false
     catFish.fish = {}
     local fish = catFish.fish
     fish.pBody = love.physics.newBody(world.physics, catFish.tarC.pBody:getX(), catFish.tarC.pBody:getY(), "kinematic")
+    catFish.startY = fish.pBody:getY()
     fish.shape = love.physics.newCircleShape(35)
     fish.fixture = love.physics.newFixture(fish.pBody, fish.shape, 1) 
     fish.fixture:setUserData("catfish")
@@ -32,7 +37,7 @@ local function createCatfish(world)
 end
 catFish.load = createCatfish
 
-local function updateCatfish(world, dt)
+local function updateCatfish(world, dt, zones)
     local function goToTar(target, world)
         local catX = world.catFish.fish.pBody:getX()
         local tarX = nil 
@@ -61,9 +66,37 @@ local function updateCatfish(world, dt)
             world.catFish.fish.pBody:setLinearVelocity(0.0, 0.0)
         end
     end
+    local function jump()
+        local playerPos = world.player.pBody:getX()
+        local catPos = world.catFish.fish.pBody:getX()
+        local xVel = 0
+        if playerPos > catPos then
+            xVel = 75
+        else
+            xVel = -75
+        end
+
+        world.catFish.fish.pBody:setLinearVelocity(xVel, -350)
+        world.catFish.jumping = true
+        world.catFish.attack = true
+        world.catFish.state = "jump"
+        world.catFish.moving = true
+    end
     local catFish = world.catFish
     local updateThreshold = 1
-    --catFish.targetMaster.pBody:setLinearVelocity(world.boatSpeed, 0)
+    catFish.targetMaster.pBody:setLinearVelocity(world.boatSpeed, 0)
+
+    local threshold = 50
+    if (catFish.fish.pBody:getX() < (world.catFish.tarD.pBody:getX() + threshold)) and (catFish.fish.pBody:getX() > (world.catFish.tarD.pBody:getX() - threshold)) then
+        catFish.atProw = true
+    else
+        catFish.atProw = false
+    end
+    if (catFish.fish.pBody:getX() < (world.catFish.tarB.pBody:getX() + threshold)) and (catFish.fish.pBody:getX() > (world.catFish.tarB.pBody:getX() - threshold)) then
+        catFish.atBack = true
+    else
+        catFish.atBack = false
+    end
 
     if catFish.update > updateThreshold then
         catFish.update = 0
@@ -114,6 +147,28 @@ local function updateCatfish(world, dt)
         goToTar("D", world)
     elseif catFish.state == "e" then
         goToTar("E", world)
+    end
+
+    if catFish.atProw and zones.onProw > 0 then
+        jump()
+    elseif catFish.atBack and zones.onBack > 0 then
+        jump()
+    elseif catFish.jumping and (zones.onBack > 0 or zones.onProw > 0) then
+        jump()
+    else
+        catFish.attack = false
+    end
+
+    if catFish.jumping and not(catFish.attack) then --Get fish back down
+
+        if catFish.fish.pBody:getY() < catFish.startY then
+            catFish.fish.pBody:setLinearVelocity(0.0, 450)
+        else
+            catFish.jumping = false
+            catFish.fish.pBody:setLinearVelocity(0.0, 0.0)
+            catFish.state = "idle"
+            catFish.moving = false
+        end
     end
 
     if not(catFish.moving) then
