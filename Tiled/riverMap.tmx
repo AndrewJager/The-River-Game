@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="29" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="3" nextobjectid="3">
+ <layer id="1" name="Tile Layer 1" width="29" height="20">
+  <data encoding="csv"/>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="1" type="static" x="85" y="-196" width="385" height="65">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#ff30ff22"/>
+   </properties>
+  </object>
+  <object id="2" type="static" x="104.388" y="45.8102" width="385" height="65" rotation="15.6389">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#ff30ff22"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
