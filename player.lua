@@ -33,9 +33,9 @@ local function updatePlayer(world, dt, zones)
     if zones.inLight >= 1 then
         world.helpText = "Press Z and X to rotate light. Press A and D to drive boat"
         if world.keys.a then
-            world.boatSpeed = -25
+            world.boatSpeed = -75
         elseif world.keys.d then
-            world.boatSpeed = 25
+            world.boatSpeed = 75
         else
             world.boatSpeed = 0
         end

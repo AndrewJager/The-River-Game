@@ -3,6 +3,7 @@
 local river = {}
 local utils = require "utils"
 local playerGen = require "player"
+local worldCopy = {} --Hacky, but I don't care
 
 local boatGod = nil
 local deck = nil
@@ -33,6 +34,7 @@ local function loadRiver(world)
     world.boatSpeed = 0
 
     world.player = playerGen.loadPlayer(world)
+    worldCopy = world
     local objects = world.map.pObjects
     for i=1, #objects do
         objects[i].pFixture = love.physics.newFixture(objects[i].pBody, objects[i].pShape, 2.0)
@@ -47,6 +49,7 @@ local function loadRiver(world)
     boatGod = utils.getByName("boatGod", objects)
     deck = utils.getByName("Deck", objects)
     deck.pBody:setAngularDamping(10.0)
+    deck.pBody:setLinearDamping(10.0)
     deck.pFixture:setDensity(15)
     deckBack = utils.getByName("DeckBack", objects)
     prow = utils.getByName("Prow", objects)
@@ -77,7 +80,6 @@ local function updateRiver(world, dt)
     boatGod.pBody:setLinearVelocity(world.boatSpeed,0.0)
     rockerL.pBody:setLinearVelocity(world.boatSpeed,0.0)
     rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
-    deckBack.pBody:applyForce(0, 1000)
 
     playerGen.updatePlayer(world, dt, zones)
 
@@ -95,10 +97,14 @@ local function drawRiver(world)
         love.graphics.setColor(unpack(objects[i].color))
         love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
     end
-    love.graphics.setColor(255,255,255)
+    love.graphics.setColor(0.074, 0.247, 0.141)
+    love.graphics.stencil(lightStencil, "replace", 1)
+    love.graphics.setStencilTest("equal", 0)
+    love.graphics.rectangle("fill", 0, 400, 2000, 400)
+    love.graphics.setStencilTest()
 
-    
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
+    love.graphics.setColor(1,1,1)
     love.graphics.print(world.helpText, 25, 610)
 end
 river.draw = drawRiver
@@ -135,5 +141,9 @@ function endCallback(a, b, col)
     end
 end
 
+function lightStencil()
+    local lightPos = platformB.pBody
+    love.graphics.polygon('fill', lightPos:getX(), lightPos:getY(), 100, 650, 400, 650)
+end
 
 return river

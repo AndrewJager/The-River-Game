@@ -30,12 +30,6 @@
     <property name="color" type="color" value="#ff154bff"/>
    </properties>
   </object>
-  <object id="6" name="Track" type="static" x="0" y="34.1667" width="2000" height="18.3333">
-   <properties>
-    <property name="LockRot" type="bool" value="false"/>
-    <property name="color" type="color" value="#ffceff72"/>
-   </properties>
-  </object>
   <object id="7" name="DeckBack" type="dynamic" x="176.856" y="299.507" width="41" height="69" rotation="-17.9698">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
