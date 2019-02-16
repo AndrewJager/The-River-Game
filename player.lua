@@ -32,24 +32,35 @@ local function updatePlayer(world, dt, zones)
     --actions
     if zones.inLight >= 1 then
         world.helpText = "Press Z and X to rotate light. Press A and D to drive boat"
+        if world.keys.c == false then
+            world.cReleased = true
+        end
+        if world.keys.c then
+            if world.cReleased then
+                if world.lampOn then
+                    world.lampOn = false
+                else
+                    world.lampOn = true
+                    world.lampAngle = world.platformB.pBody:getX()
+                end
+            end
+            world.cReleased = false
+        end
         if world.keys.a then
             world.boatSpeed = -75
+            world.lampAngle = 0
+            world.lampOn = false
         elseif world.keys.d then
             world.boatSpeed = 75
+            world.lampAngle = 0
+            world.lampOn = false
         else
             world.boatSpeed = 0
         end
         if world.keys.z then
-            world.lamp.pBody:setAngularVelocity(5.0)
-            world.lamp.pBody:setFixedRotation(false)
+            world.lampAngle = world.lampAngle - 15
         elseif world.keys.x then
-            if math.rad(world.lamp.pBody:getAngle()) < 5 then
-                world.lamp.pBody:setAngularVelocity(.50)
-                world.lamp.pBody:setFixedRotation(false)
-            end
-        else
-            world.lamp.pBody:setAngularVelocity(0)
-            world.lamp.pBody:setFixedRotation(true)
+            world.lampAngle = world.lampAngle + 15
         end
     elseif zones.onBelow >= 1 then
         world.helpText = "choose tool"
