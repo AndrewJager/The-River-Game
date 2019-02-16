@@ -1,8 +1,10 @@
 local menu = {}
 
 local uare = require "Libraries/uare"
+local rayHandler = require "godrays"
 
 local header = nil 
+local rays = nil
 
 local function menuCreate(world)
 btnStartStyle = uare.newStyle({
@@ -54,15 +56,24 @@ myButton1 = uare.new({
 
 header = love.graphics.newImage("images/header.png")
 
+rays = rayHandler.createRay(500, 0, 0, 900, 0, 450, 600)
+rays.spreadX = 450
+rays.spreadY = 0
+rays.colorA = {0.860, 0.825, 0.888, 0.2}
+rays.colorB = {0.860, 0.825, 0.888, 0.2}
+rayHandler.reCreateRay(rays)
+
 end
 menu.load = menuCreate
 
 local function menuUpdate(dt)
+    rayHandler.updateRay(rays, dt)
     uare.update(dt, love.mouse.getX(), love.mouse.getY())
 end
 menu.update = menuUpdate
 
 local function menuDraw()
+    rayHandler.drawRay(rays)
     love.graphics.push()
     love.graphics.scale(0.41,0.41)
     love.graphics.setColor(0.5,0.5,0.5,1)
