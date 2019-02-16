@@ -11,8 +11,16 @@ local platform = nil
 local platformB = nil
 local rockerL = nil
 local rockerR = nil
+local prowZone = nil
+local backZone = nil
+local lightZone = nil
+local belowZone = nil
 
 local footing = 0
+local inLight = 0
+local onProw = 0
+local onBack = 0
+local onBelow = 0
 
 local function loadRiver(world)
     love.physics.setMeter(64) 
@@ -32,7 +40,9 @@ local function loadRiver(world)
         objects[i].pBody:setFixedRotation(objects[i].pFixRotation)
         objects[i].pBody:setSleepingAllowed(false)
         objects[i].pFixture:setUserData(objects[i].data)
-       
+        if objects[i].isSensor then
+            objects[i].pFixture:setSensor(true)
+        end
     end
 
     boatGod = utils.getByName("boatGod", objects)
@@ -44,6 +54,10 @@ local function loadRiver(world)
     platformB = utils.getByName("Platform2", objects)
     rockerL = utils.getByName("rockerL", objects)
     rockerR = utils.getByName("rockerR", objects)
+    prowZone = utils.getByName("prowZone", objects)
+    backZone = utils.getByName("backZone", objects)
+    lightZone = utils.getByName("lightZone", objects)
+    belowZone = utils.getByName("belowZone", objects)
 
     local rope = love.physics.newRopeJoint(boatGod.pBody, deck.pBody, boatGod.pBody:getX(), boatGod.pBody:getY(), deck.pBody:getX(), deck.pBody:getY(), 350)
     local rope2 = love.physics.newRopeJoint(rockerL.pBody, deck.pBody, rockerL.pBody:getX(), rockerL.pBody:getY(), rockerL.pBody:getX(), deck.pBody:getY(), 350)
@@ -52,6 +66,10 @@ local function loadRiver(world)
     local weld2 = love.physics.newWeldJoint(deck.pBody, prow.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld3 = love.physics.newWeldJoint(deck.pBody, platform.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld4 = love.physics.newWeldJoint(deck.pBody, platformB.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld5 = love.physics.newWeldJoint(deck.pBody, prowZone.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld6 = love.physics.newWeldJoint(deck.pBody, backZone.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld7 = love.physics.newWeldJoint(deck.pBody, lightZone.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld8 = love.physics.newWeldJoint(deck.pBody, belowZone.pBody, deck.pBody:getX(), deck.pBody:getY())
 end
 river.load = loadRiver
 
@@ -89,7 +107,7 @@ local function drawRiver(world)
         love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
     end
 
-    love.graphics.print(footing)
+    love.graphics.print(footing.." "..inLight.." "..onBack.." "..onProw.." "..onBelow)
 end
 river.draw = drawRiver
 
@@ -97,6 +115,14 @@ function beginCallback(a, b, col)
     if a:getUserData() == "player" or b:getUserData() == "player" then
         if a:getUserData() == "boat" or b:getUserData() == "boat" then
             footing = footing + 1
+        elseif a:getUserData() == "prowZone" or b:getUserData() == "prowZone" then
+            onProw = onProw + 1
+        elseif a:getUserData() == "backZone" or b:getUserData() == "backZone" then
+            onBack = onBack + 1
+        elseif a:getUserData() == "lightZone" or b:getUserData() == "lightZone" then
+            inLight = inLight + 1
+        elseif a:getUserData() == "belowZone" or b:getUserData() == "belowZone" then
+            onBelow = onBelow + 1
         end
     end
 end
@@ -105,6 +131,12 @@ function endCallback(a, b, col)
     if a:getUserData() == "player" or b:getUserData() == "player" then
         if a:getUserData() == "boat" or b:getUserData() == "boat" then
             footing = footing - 1
+        elseif a:getUserData() == "prowZone" or b:getUserData() == "prowZone" then
+            onProw = onProw - 1
+        elseif a:getUserData() == "backZone" or b:getUserData() == "backZone" then
+            onBack = onBack - 1
+        elseif a:getUserData() == "belowZone" or b:getUserData() == "belowZone" then
+            onBelow = onBelow - 1
         end
     end
 end

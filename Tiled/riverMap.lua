@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 3,
-  nextobjectid = 13,
+  nextobjectid = 17,
   properties = {},
   tilesets = {},
   layers = {
@@ -70,7 +70,8 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat"
+            ["data"] = "boat",
+            ["isTrigger"] = false
           }
         },
         {
@@ -135,7 +136,8 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat"
+            ["data"] = "boat",
+            ["isTrigger"] = false
           }
         },
         {
@@ -152,7 +154,8 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat"
+            ["data"] = "boat",
+            ["isTrigger"] = false
           }
         },
         {
@@ -169,7 +172,8 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat"
+            ["data"] = "boat",
+            ["isTrigger"] = false
           }
         },
         {
@@ -186,7 +190,8 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat"
+            ["data"] = "boat",
+            ["isTrigger"] = false
           }
         },
         {
@@ -219,6 +224,78 @@ return {
           properties = {
             ["LockRot"] = true,
             ["color"] = "#ff154bff"
+          }
+        },
+        {
+          id = 13,
+          name = "prowZone",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 676.5,
+          y = 229.5,
+          width = 109,
+          height = 119,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#94ff1d00",
+            ["data"] = "prowZone",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 14,
+          name = "backZone",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 181.5,
+          y = 246.5,
+          width = 96,
+          height = 103,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#94ff1d00",
+            ["data"] = "backZone",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 15,
+          name = "lightZone",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 472.5,
+          y = 138.5,
+          width = 109,
+          height = 88,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#94ff1d00",
+            ["data"] = "lightZone",
+            ["isTrigger"] = true
+          }
+        },
+        {
+          id = 16,
+          name = "belowZone",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 472.5,
+          y = 251,
+          width = 109,
+          height = 88,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#94ff1d00",
+            ["data"] = "belowZone",
+            ["isTrigger"] = true
           }
         }
       }

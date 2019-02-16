@@ -19,6 +19,7 @@ local function loadMap(physics)
 		map.pObjects[i].pShape = love.physics.newRectangleShape(0,0, mapObjects[i].width, mapObjects[i].height, math.rad(mapObjects[i].rotation))
 		map.pObjects[i].pFixRotation = mapObjects[i].properties.LockRot
         map.pObjects[i].data = mapObjects[i].properties.data
+        map.pObjects[i].isSensor = mapObjects[i].properties.isTrigger
     end
     return map
 end
