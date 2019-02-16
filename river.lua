@@ -17,6 +17,8 @@ local prowZone = nil
 local backZone = nil
 local lightZone = nil
 local belowZone = nil
+local lamp = nil
+local lampTarget = nil
 
 local zones = {}
 zones.footing = 0
@@ -62,6 +64,25 @@ local function loadRiver(world)
     lightZone = utils.getByName("lightZone", objects)
     belowZone = utils.getByName("belowZone", objects)
 
+    lamp = {}
+    lamp.pBody = love.physics.newBody(world.physics, platformB.pBody:getX(), platformB.pBody:getY() - 15, "kinematic")
+    lamp.pBody:setFixedRotation(true)
+    lamp.color = {(0.4),(0),(0), (0.4)}
+    lamp.pShape = love.physics.newRectangleShape(0,0, 20, 20)
+    lamp.pFixture = love.physics.newFixture(lamp.pBody, lamp.pShape, 2.1)
+    lamp.pBody:setMass(0.0)
+    lamp.pFixture:setSensor(true)
+    table.insert(world.map.pObjects, lamp)
+    world.lamp = lamp
+    lampTarget = {}
+    lampTarget.pBody = love.physics.newBody(world.physics, platformB.pBody:getX(), platformB.pBody:getY() + 450, "dynamic")
+    lampTarget.color = {(0.4),(0),(0), (0.4)}
+    lampTarget.pShape = love.physics.newRectangleShape(0,0, 20, 20)
+    lampTarget.pFixture = love.physics.newFixture(lampTarget.pBody, lampTarget.pShape, 2.1)
+    lampTarget.pBody:setMass(0.0)
+    lampTarget.pFixture:setSensor(true)
+    table.insert(world.map.pObjects, lampTarget)
+
     local rope = love.physics.newRopeJoint(boatGod.pBody, deck.pBody, boatGod.pBody:getX(), boatGod.pBody:getY(), deck.pBody:getX(), deck.pBody:getY(), 350)
     local rope2 = love.physics.newRopeJoint(rockerL.pBody, deck.pBody, rockerL.pBody:getX(), rockerL.pBody:getY(), rockerL.pBody:getX(), deck.pBody:getY(), 350)
     local rope3 = love.physics.newRopeJoint(rockerR.pBody, deck.pBody, rockerR.pBody:getX(), rockerR.pBody:getY(), rockerR.pBody:getX(), deck.pBody:getY(), 350)
@@ -73,6 +94,8 @@ local function loadRiver(world)
     local weld6 = love.physics.newWeldJoint(deck.pBody, backZone.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld7 = love.physics.newWeldJoint(deck.pBody, lightZone.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld8 = love.physics.newWeldJoint(deck.pBody, belowZone.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld9 = love.physics.newRevoluteJoint(deck.pBody, lamp.pBody, lamp.pBody:getX(), lamp.pBody:getY())
+    local weld10 = love.physics.newWeldJoint(lamp.pBody, lampTarget.pBody, lamp.pBody:getX(), lamp.pBody:getY())
 end
 river.load = loadRiver
 
@@ -105,7 +128,7 @@ local function drawRiver(world)
 
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
     love.graphics.setColor(1,1,1)
-    love.graphics.print(world.helpText, 25, 610)
+    love.graphics.print(world.helpText.."  "..math.deg(world.lamp.pBody:getAngle()), 25, 610)
 end
 river.draw = drawRiver
 
@@ -143,7 +166,10 @@ end
 
 function lightStencil()
     local lightPos = platformB.pBody
-    love.graphics.polygon('fill', lightPos:getX(), lightPos:getY(), 100, 650, 400, 650)
+    local targetPos = lampTarget.pBody
+    x = lampTarget.pBody:getX()
+    y = lampTarget.pBody:getY()
+    love.graphics.polygon('fill', lightPos:getX(), lightPos:getY(), x - 150, y, x + 150, y)
 end
 
 return river

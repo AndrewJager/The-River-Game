@@ -39,6 +39,18 @@ local function updatePlayer(world, dt, zones)
         else
             world.boatSpeed = 0
         end
+        if world.keys.z then
+            world.lamp.pBody:setAngularVelocity(5.0)
+            world.lamp.pBody:setFixedRotation(false)
+        elseif world.keys.x then
+            if math.rad(world.lamp.pBody:getAngle()) < 5 then
+                world.lamp.pBody:setAngularVelocity(.50)
+                world.lamp.pBody:setFixedRotation(false)
+            end
+        else
+            world.lamp.pBody:setAngularVelocity(0)
+            world.lamp.pBody:setFixedRotation(true)
+        end
     elseif zones.onBelow >= 1 then
         world.helpText = "choose tool"
     else
