@@ -4,6 +4,7 @@ local river = {}
 local utils = require "utils"
 local playerGen = require "player"
 local catFish = require "catfish"
+local rayHandler = require "godrays"
 local worldCopy = {} --Hacky, but I don't care
 
 local boatGod = nil
@@ -32,6 +33,9 @@ local waterB = love.graphics.newImage("images/waterB.png")
 local waterC = love.graphics.newImage("images/waterC.png")
 local water = waterA
 local waterUpdate = 0
+local waterOffset = 0
+
+local light = nil
 
 local function loadRiver(world)
     love.physics.setMeter(64) 
@@ -95,7 +99,7 @@ local function updateRiver(world, dt)
     rockerL.pBody:setLinearVelocity(world.boatSpeed,0.0)
     rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
 
-    local waterUpdateTime = 25
+    local waterUpdateTime = 50
     if waterUpdate >= waterUpdateTime then
         if water == waterA then
             water = waterB
@@ -105,8 +109,10 @@ local function updateRiver(world, dt)
             water = waterA
         end
         waterUpdate = 0
+        waterOffset = 0
     else
         waterUpdate = waterUpdate + 1
+        waterOffset = waterOffset + 0.5
     end
     playerGen.updatePlayer(world, dt, zones)
     catFish.update(world, dt, zones)
@@ -129,12 +135,20 @@ local function drawRiver(world)
     love.graphics.setColor(0.1, 0.1, 0.1)
     love.graphics.stencil(lightStencil, "replace", 1)
     love.graphics.push()
-    love.graphics.translate(world.player.pBody:getX() - 450, 0)
+    love.graphics.translate(world.player.pBody:getX() - 450 + waterOffset, 0)
     love.graphics.scale(0.5,0.5)
     love.graphics.setStencilTest("equal", 0)
     love.graphics.draw(water, -50, 750)
     love.graphics.pop()
     love.graphics.setStencilTest()
+
+    if worldCopy.lampOn then
+        love.graphics.setColor(0.972, 0.984, 0.494, 0.5)
+        lightPos = platformB.pBody
+        local x = worldCopy.lampAngle
+        local y = 800
+        polygon = love.graphics.polygon('fill', lightPos:getX(), lightPos:getY(), x - 150, y, x + 150, y)
+    end
 
     love.graphics.setFont(world.font)
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
