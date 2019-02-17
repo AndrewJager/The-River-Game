@@ -56,6 +56,9 @@ function getInput()
     keys.x = love.keyboard.isDown("x")
     keys.c = love.keyboard.isDown("c")
     keys.h = love.keyboard.isDown("h")
+    keys.one = love.keyboard.isDown("1")
+    keys.two = love.keyboard.isDown("2")
+    keys.space = love.keyboard.isDown("space")
 
     return keys
 end

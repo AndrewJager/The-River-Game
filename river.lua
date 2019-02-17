@@ -19,6 +19,8 @@ local prowZone = nil
 local backZone = nil
 local lightZone = nil
 local belowZone = nil
+local prowWall = nil
+local backWall = nil
 
 local zones = {}
 zones.footing = 0
@@ -90,6 +92,8 @@ local function loadRiver(world)
     backZone = utils.getByName("backZone", objects)
     lightZone = utils.getByName("lightZone", objects)
     belowZone = utils.getByName("belowZone", objects)
+    prowWall = utils.getByName("ProwWall", objects)
+    backWall = utils.getByName("DeckBackWall", objects)
 
     local rope = love.physics.newRopeJoint(boatGod.pBody, deck.pBody, boatGod.pBody:getX(), boatGod.pBody:getY(), deck.pBody:getX(), deck.pBody:getY(), 350)
     local rope2 = love.physics.newRopeJoint(rockerL.pBody, deck.pBody, rockerL.pBody:getX(), rockerL.pBody:getY(), rockerL.pBody:getX(), deck.pBody:getY(), 350)
@@ -102,6 +106,8 @@ local function loadRiver(world)
     local weld6 = love.physics.newWeldJoint(deck.pBody, backZone.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld7 = love.physics.newWeldJoint(deck.pBody, lightZone.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld8 = love.physics.newWeldJoint(deck.pBody, belowZone.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld9 = love.physics.newWeldJoint(deck.pBody, prowWall.pBody, deck.pBody:getX(), deck.pBody:getY())
+    local weld10 = love.physics.newWeldJoint(deck.pBody, backWall.pBody, deck.pBody:getX(), deck.pBody:getY())
 
     local plantCount = 15
     for i = 1, plantCount do
@@ -185,6 +191,10 @@ local function drawRiver(world)
     love.graphics.setColor(0.76, 0.18, 0.05)
     love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
     love.graphics.circle("fill", world.catFish.fish.pBody:getX(), world.catFish.fish.pBody:getY(), world.catFish.fish.shape:getRadius())
+    if world.player.magnet.pBody ~= nil then
+        love.graphics.setColor(0.18, 0.76, 0.05)
+        love.graphics.circle("fill", world.player.magnet.pBody:getX(), world.player.magnet.pBody:getY(), world.player.magnet.shape:getRadius())
+    end
 
     local objects = world.map.pObjects
     for i=1, #objects do

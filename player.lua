@@ -11,7 +11,10 @@ local function loadPlayer(world)
     player.fixture:setUserData("player")
     player.fixture:setFriction(2.0)
     player.dead = false
+    player.locked = false
     player.tool = ""
+    player.magnet = {}
+    player.spaceReleased = false
     return player
 end
 player.loadPlayer = loadPlayer
@@ -20,14 +23,16 @@ local function updatePlayer(world, dt, zones)
     local player = world.player
     local x, y = player.pBody:getLinearVelocity()
     local speed = 150
-    if world.keys.right then
-        player.pBody:setLinearVelocity(speed, y)
-    elseif world.keys.left then
-        player.pBody:setLinearVelocity(-speed, y)
-    end
-    if zones.footing >= 1 then
-        if world.keys.up then
-            player.pBody:applyForce(0, -3000)
+    if not(player.locked) then
+        if world.keys.right then
+            player.pBody:setLinearVelocity(speed, y)
+        elseif world.keys.left then
+            player.pBody:setLinearVelocity(-speed, y)
+        end
+        if zones.footing >= 1 then
+            if world.keys.up then
+                player.pBody:applyForce(0, -3000)
+            end
         end
     end
 
@@ -65,12 +70,47 @@ local function updatePlayer(world, dt, zones)
             world.lampAngle = world.lampAngle + 15
         end
     elseif zones.onBelow >= 1 then
-        world.helpText = "choose tool"
+        world.helpText = "Choose tool: 1 for magnet"
+        if world.keys.one then
+            if player.tool ~= "magnet" then
+                spawnMagnet(world)
+                world.helpText = "Press space at the edge of the boat to drop the magnet. Press space again to bring it back"
+                player.tool = "magnet"
+            end
+        end
     elseif zones.onDock >= 1 then
         world.helpText = "Arrow keys to move and jump"
+    elseif zones.onProw >= 1 then
+        if world.keys.space and player.magnet.magnetDown == false then
+            dropMagnet(world)
+            player.magnet.pBody:applyForce(50, 0)
+            player.locked = true
+        elseif world.keys.space and player.magnet.magnetDown and player.spaceReleased  then
+            player.magnet.raiseMagnet = true
+        end
+        if player.magnet.raiseMagnet then
+            if player.magnet.rope:getMaxLength() > 25 then
+                raiseMagnet(world)
+            else
+                player.magnet.rope:destroy()
+                player.magnet.pBody:setPosition(player.pBody:getX() + 10, player.pBody:getY())
+                player.magnet.magnetDown = false
+                player.magnet.raiseMagnet = false
+                player.magnet.weld = love.physics.newWeldJoint(player.pBody, player.magnet.pBody, player.pBody:getX(), player.pBody:getY())
+                player.locked = false
+            end
+        end
+    elseif zones.onBack >= 1 then
+
     else
         world.helpText = ""
         world.boatSpeed = 0
+    end
+
+    if world.keys.space == true then
+        world.player.spaceReleased = false
+    else
+        world.player.spaceReleased = true
     end
 
     if world.keys.h then
@@ -78,5 +118,34 @@ local function updatePlayer(world, dt, zones)
     end
 end
 player.updatePlayer = updatePlayer
+
+function spawnMagnet(world)
+    local magnet = world.player.magnet
+    local player = world.player.pBody
+    magnet.pBody = love.physics.newBody(world.physics, player:getX() + 10, player:getY(), "dynamic")
+    magnet.pBody:setFixedRotation(true)
+    magnet.shape = love.physics.newCircleShape(5)
+    magnet.fixture = love.physics.newFixture(magnet.pBody, magnet.shape, 1) 
+    magnet.fixture:setUserData("magnet")
+    magnet.fixture:setSensor(true)
+    magnet.magnetDown = false
+    magnet.weld = love.physics.newWeldJoint(player, magnet.pBody, player:getX(), player:getY())
+end
+
+function dropMagnet(world)
+    local magnet = world.player.magnet
+    local player = world.player.pBody
+    local ropeLength = 300
+    magnet.weld:destroy()
+    magnet.magnetDown = true
+    magnet.raise = false
+    magnet.rope = love.physics.newRopeJoint(player, magnet.pBody, player:getX(), player:getY(), magnet.pBody:getX(), magnet.pBody:getY(), ropeLength)
+    magnet.ropeLength = ropeLength
+end
+
+function raiseMagnet(world)
+    world.player.magnet.ropeLength = world.player.magnet.ropeLength - 3
+    world.player.magnet.rope:setMaxLength(world.player.magnet.ropeLength)
+end
 
 return player

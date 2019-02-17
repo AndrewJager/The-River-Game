@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 3,
-  nextobjectid = 29,
+  nextobjectid = 31,
   properties = {},
   tilesets = {},
   layers = {
@@ -108,14 +108,14 @@ return {
         },
         {
           id = 7,
-          name = "DeckBack",
+          name = "ProwWall",
           type = "dynamic",
           shape = "rectangle",
-          x = 176.856,
-          y = 299.507,
-          width = 41,
-          height = 69,
-          rotation = -17.9698,
+          x = 692.856,
+          y = 288.174,
+          width = 9.66667,
+          height = 22.3333,
+          rotation = 0,
           visible = true,
           properties = {
             ["LockRot"] = false,
@@ -129,11 +129,11 @@ return {
           name = "Prow",
           type = "dynamic",
           shape = "rectangle",
-          x = 675.065,
-          y = 346.371,
-          width = 116,
-          height = 26,
-          rotation = -36.3115,
+          x = 654.978,
+          y = 387.786,
+          width = 86.6667,
+          height = 47.3333,
+          rotation = -90,
           visible = true,
           properties = {
             ["LockRot"] = false,
@@ -215,10 +215,10 @@ return {
           name = "prowZone",
           type = "dynamic",
           shape = "rectangle",
-          x = 628.5,
-          y = 220.167,
-          width = 157,
-          height = 128.333,
+          x = 655.167,
+          y = 193.5,
+          width = 49,
+          height = 111,
           rotation = 0,
           visible = true,
           properties = {
@@ -233,9 +233,9 @@ return {
           name = "backZone",
           type = "dynamic",
           shape = "rectangle",
-          x = 181.5,
-          y = 229.167,
-          width = 166.667,
+          x = 196.833,
+          y = 207.167,
+          width = 44,
           height = 120.333,
           rotation = 0,
           visible = true,
@@ -478,6 +478,42 @@ return {
             ["color"] = "#50ff1d00",
             ["data"] = "dockZone",
             ["isTrigger"] = true
+          }
+        },
+        {
+          id = 29,
+          name = "DeckBack",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 200.167,
+          y = 306.833,
+          width = 41,
+          height = 69,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff30ff22",
+            ["data"] = "boat",
+            ["isTrigger"] = false
+          }
+        },
+        {
+          id = 30,
+          name = "DeckBackWall",
+          type = "dynamic",
+          shape = "rectangle",
+          x = 199.833,
+          y = 293.5,
+          width = 9.66667,
+          height = 22.3333,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["LockRot"] = false,
+            ["color"] = "#ff30ff22",
+            ["data"] = "boatWall",
+            ["isTrigger"] = false
           }
         }
       }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="29" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="3" nextobjectid="29">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="29" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="3" nextobjectid="31">
  <layer id="1" name="Tile Layer 1" width="29" height="20">
   <data encoding="csv"/>
  </layer>
@@ -30,7 +30,7 @@
     <property name="color" type="color" value="#ff154bff"/>
    </properties>
   </object>
-  <object id="7" name="DeckBack" type="dynamic" x="176.856" y="299.507" width="41" height="69" rotation="-17.9698">
+  <object id="7" name="ProwWall" type="dynamic" x="692.856" y="288.174" width="9.66667" height="22.3333">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
@@ -38,7 +38,7 @@
     <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="8" name="Prow" type="dynamic" x="675.065" y="346.371" width="116" height="26" rotation="-36.3115">
+  <object id="8" name="Prow" type="dynamic" x="654.978" y="387.786" width="86.6667" height="47.3333" rotation="-90">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
@@ -74,7 +74,7 @@
     <property name="color" type="color" value="#ff154bff"/>
    </properties>
   </object>
-  <object id="13" name="prowZone" type="dynamic" x="628.5" y="220.167" width="157" height="128.333">
+  <object id="13" name="prowZone" type="dynamic" x="655.167" y="193.5" width="49" height="111">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#50ff1d00"/>
@@ -82,7 +82,7 @@
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="14" name="backZone" type="dynamic" x="181.5" y="229.167" width="166.667" height="120.333">
+  <object id="14" name="backZone" type="dynamic" x="196.833" y="207.167" width="44" height="120.333">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#50ff1d00"/>
@@ -192,6 +192,22 @@
     <property name="color" type="color" value="#50ff1d00"/>
     <property name="data" value="dockZone"/>
     <property name="isTrigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="29" name="DeckBack" type="dynamic" x="200.167" y="306.833" width="41" height="69">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#ff30ff22"/>
+    <property name="data" value="boat"/>
+    <property name="isTrigger" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="30" name="DeckBackWall" type="dynamic" x="199.833" y="293.5" width="9.66667" height="22.3333">
+   <properties>
+    <property name="LockRot" type="bool" value="false"/>
+    <property name="color" type="color" value="#ff30ff22"/>
+    <property name="data" value="boatWall"/>
+    <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>
