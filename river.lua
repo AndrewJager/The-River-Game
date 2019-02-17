@@ -23,7 +23,8 @@ local belowZone = nil
 local prowWall = nil
 local backWall = nil
 
-local blackBox = nil
+local items = {}
+local debris = {}
 
 local zones = {}
 zones.footing = 0
@@ -66,6 +67,7 @@ local function loadRiver(world)
     world.lampAngle = 0
     world.lampOn = false
     world.message = ""
+    world.score = 0
 
     world.player = playerGen.loadPlayer(world)
     worldCopy = world
@@ -159,11 +161,28 @@ local function loadRiver(world)
         sprites[i] = newSprite
     end
 
-    blackBox = {}
-    blackBox.pBody = love.physics.newBody(world.physics, love.math.random(800, 1200), 500, "dynamic")
-    blackBox.shape = love.physics.newRectangleShape(0, 0, 50, 50)
-    blackBox.fixture = love.physics.newFixture(blackBox.pBody, blackBox.shape, 0.2)
-    blackBox.fixture:setUserData("item")
+    local itemsCount = 15
+    for i = 1, itemsCount do
+        blackBox = {}
+        blackBox.value = love.math.random(50, 100)
+        blackBox.pBody = love.physics.newBody(world.physics, love.math.random(800, levelMax), 500, "dynamic")
+        blackBox.shape = love.physics.newRectangleShape(0, 0, blackBox.value, 50)
+        blackBox.fixture = love.physics.newFixture(blackBox.pBody, blackBox.shape, 0.1)
+        blackBox.fixture:setUserData("item")
+        blackBox.fixture:setFriction(blackBox.value)
+        items[i] = blackBox
+    end
+    local debrisCount = 65
+    for i = 1, debrisCount do
+        blackBox = {}
+        blackBox.value = love.math.random(1, 5)
+        blackBox.pBody = love.physics.newBody(world.physics, love.math.random(800, levelMax), 300, "dynamic")
+        blackBox.shape = love.physics.newRectangleShape(0, 0, blackBox.value * 20, 10)
+        blackBox.fixture = love.physics.newFixture(blackBox.pBody, blackBox.shape, 0.1)
+        blackBox.fixture:setUserData("item")
+        blackBox.fixture:setFriction(blackBox.value)
+        debris[i] = blackBox
+    end
 end
 river.load = loadRiver
 
@@ -171,6 +190,17 @@ local function updateRiver(world, dt)
     boatGod.pBody:setLinearVelocity(world.boatSpeed,0.0)
     rockerL.pBody:setLinearVelocity(world.boatSpeed,0.0)
     rockerR.pBody:setLinearVelocity(world.boatSpeed, 0)
+
+    for i = #debris, 1, -1 do
+        if debris[i].pBody:isDestroyed() then
+            table.remove(debris,i)
+        end
+    end
+    for i = #items, 1, -1 do
+        if items[i].pBody:isDestroyed() then
+            table.remove(items,i)
+        end
+    end
 
     local waterUpdateTime = 50
     if waterUpdate >= waterUpdateTime then
@@ -222,6 +252,19 @@ local function drawRiver(world)
     love.graphics.draw(water2, -50, 750)
     love.graphics.pop()
 
+    love.graphics.setColor(0.380, 0.368, 0.360)
+    for i=1, #items do
+        if items[i].pBody:isDestroyed() == false then
+            love.graphics.polygon("fill", items[i].pBody:getWorldPoints(items[i].shape:getPoints()))
+        end
+    end
+    love.graphics.setColor(0.4, 0.215, 0.039)
+    for i=1, #debris do
+        if debris[i].pBody:isDestroyed() == false then
+            love.graphics.polygon("fill", debris[i].pBody:getWorldPoints(debris[i].shape:getPoints()))
+        end
+    end
+
     love.graphics.setColor(0.1, 0.1, 0.1)
     love.graphics.stencil(lightStencil, "replace", 1)
     love.graphics.push()
@@ -242,7 +285,6 @@ local function drawRiver(world)
 
     if debug == true then
         love.graphics.setColor(0.76, 0.18, 0.05)
-        love.graphics.polygon("fill", blackBox.pBody:getWorldPoints(blackBox.shape:getPoints()))
         love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
         love.graphics.circle("fill", world.catFish.fish.pBody:getX(), world.catFish.fish.pBody:getY(), world.catFish.fish.shape:getRadius())
         if world.player.magnet.pBody ~= nil then
@@ -272,6 +314,7 @@ local function drawRiver(world)
         love.graphics.print(world.message, 155, 55)
         love.graphics.print("(press h to hide)", 155, 90)
     end
+    love.graphics.print("Score: "..world.score, 15, 20)
 end
 river.draw = drawRiver
 
@@ -298,10 +341,12 @@ function beginCallback(a, b, col)
         if a:getUserData() == "magnet" or b:getUserData() == "magnet" then
             local magnet = worldCopy.player.magnet
             magnet.makeWeld = true
-            if a:getUserData() == "item" then
-                magnet.weldObject = a:getBody()
-            else
-                magnet.weldObject = b:getBody()
+            if magnet.canWeld then
+                if a:getUserData() == "item" then
+                    magnet.weldObject = a:getBody()
+                else
+                    magnet.weldObject = b:getBody()
+                end
             end
         end
     end

@@ -93,21 +93,29 @@ local function updatePlayer(world, dt, zones)
                 raiseMagnet(world)
             else
                 player.magnet.rope:destroy()
-                if player.magnet.weld ~= nil then
+                if player.magnet.weld:isDestroyed() == false then
                     player.magnet.weld:destroy()
+                    local weldObject = player.magnet.weldObject
+                    local fixture = player.magnet.weldObject:getFixtures()
+                    local score = fixture[1]:getFriction()
+                    world.score = world.score + score
+                    weldObject:destroy()
                 end
                 player.magnet.pBody:setPosition(player.pBody:getX() + 10, player.pBody:getY())
                 player.magnet.magnetDown = false
                 player.magnet.raiseMagnet = false
+                player.magnet.canWeld = true
+                player.magnet.makeWeld = false
                 player.magnet.weld = love.physics.newWeldJoint(player.pBody, player.magnet.pBody, player.pBody:getX(), player.pBody:getY())
                 player.locked = false
             end
         end
         if player.magnet.pBody ~= nil then
-            if player.magnet.makeWeld then
+            if player.magnet.makeWeld and player.magnet.canWeld then
                 player.magnet.weld = love.physics.newWeldJoint(player.magnet.weldObject, player.magnet.pBody, player.magnet.pBody:getX(), player.magnet.pBody:getY())
                 local fixture = player.magnet.weldObject:getFixtures()
                 fixture[1]:setSensor(true)
+                player.magnet.canWeld = false
             end
         end
     elseif zones.onBack >= 1 then
@@ -141,6 +149,7 @@ function spawnMagnet(world)
     magnet.magnetDown = false
     magnet.weld = love.physics.newWeldJoint(player, magnet.pBody, player:getX(), player:getY())
     magnet.makeWeld = false
+    magnet.canWeld = true
 end
 
 function dropMagnet(world)
