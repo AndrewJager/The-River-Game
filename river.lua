@@ -34,6 +34,17 @@ local waterC = love.graphics.newImage("images/waterC.png")
 local water = waterA
 local waterUpdate = 0
 local waterOffset = 0
+local levelMax = 3000
+
+local plantA = love.graphics.newImage("images/plantA.png")
+local plantB = love.graphics.newImage("images/plantB.png")
+local plantC = love.graphics.newImage("images/plantC.png")
+local plantD = love.graphics.newImage("images/plantD.png")
+local reedA = love.graphics.newImage("images/reedA.png")
+local reedB = love.graphics.newImage("images/reedB.png")
+local reedC = love.graphics.newImage("images/reedC.png")
+local reedD = love.graphics.newImage("images/reedD.png")
+local sprites = {}
 
 local light = nil
 
@@ -91,6 +102,28 @@ local function loadRiver(world)
     local weld6 = love.physics.newWeldJoint(deck.pBody, backZone.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld7 = love.physics.newWeldJoint(deck.pBody, lightZone.pBody, deck.pBody:getX(), deck.pBody:getY())
     local weld8 = love.physics.newWeldJoint(deck.pBody, belowZone.pBody, deck.pBody:getX(), deck.pBody:getY())
+
+    local plantCount = 15
+    for i = 1, plantCount do
+        local choice = love.math.random(1, 4)
+        local newSprite = {}
+        if choice == 1 then
+            newSprite.image = plantA
+            newSprite.offset = -100
+        elseif choice == 2 then
+            newSprite.image = plantB
+            newSprite.offset = -310
+        elseif choice == 3 then
+            newSprite.image = plantC
+            newSprite.offset = 0
+        elseif choice == 4 then
+            newSprite.image = plantD
+            newSprite.offset = -100
+        end
+        newSprite.x = love.math.random(200, levelMax)
+        newSprite.y = 50
+        sprites[i] = newSprite
+    end
 end
 river.load = loadRiver
 
@@ -123,6 +156,10 @@ river.update = updateRiver
 
 local function drawRiver(world)
     love.graphics.translate(-world.player.pBody:getX() + 450, 0)
+    love.graphics.setColor(1,1,1)
+    for i = 1, #sprites do
+        love.graphics.draw(sprites[i].image, sprites[i].x, sprites[i].y, 0, 0.5, 0.5, 0, sprites[i].offset)
+    end
     love.graphics.setColor(0.76, 0.18, 0.05)
     love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
     love.graphics.circle("fill", world.catFish.fish.pBody:getX(), world.catFish.fish.pBody:getY(), world.catFish.fish.shape:getRadius())
@@ -135,7 +172,7 @@ local function drawRiver(world)
     love.graphics.setColor(0.1, 0.1, 0.1)
     love.graphics.stencil(lightStencil, "replace", 1)
     love.graphics.push()
-    love.graphics.translate(world.player.pBody:getX() - 450 + waterOffset, 0)
+    love.graphics.translate(world.player.pBody:getX() - 450 - waterOffset, 0)
     love.graphics.scale(0.5,0.5)
     love.graphics.setStencilTest("equal", 0)
     love.graphics.draw(water, -50, 750)

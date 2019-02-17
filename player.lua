@@ -33,11 +33,11 @@ local function updatePlayer(world, dt, zones)
 
     --actions
     if zones.inLight >= 1 then
-        world.helpText = "Press Z and X to rotate light. C to turn light on/off. Press A and D to drive boat"
-        if world.keys.c == false then
+        world.helpText = "Press Z and C to rotate light. X to turn light on/off. Press A and D to drive boat"
+        if world.keys.x == false then
             world.cReleased = true
         end
-        if world.keys.c then
+        if world.keys.x then
             if world.cReleased then
                 if world.lampOn then
                     world.lampOn = false
@@ -61,7 +61,7 @@ local function updatePlayer(world, dt, zones)
         end
         if world.keys.z then
             world.lampAngle = world.lampAngle - 15
-        elseif world.keys.x then
+        elseif world.keys.c then
             world.lampAngle = world.lampAngle + 15
         end
     elseif zones.onBelow >= 1 then
