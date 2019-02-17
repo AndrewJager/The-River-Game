@@ -4,7 +4,7 @@
   <data encoding="csv"/>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="1" type="static" x="-1" y="607" width="2000" height="65">
+  <object id="1" type="static" x="-1" y="607" width="4000" height="65">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>

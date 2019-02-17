@@ -6,6 +6,7 @@ local playerGen = require "player"
 local catFish = require "catfish"
 local rayHandler = require "godrays"
 local worldCopy = {} --Hacky, but I don't care
+local debug = true
 
 local boatGod = nil
 local deck = nil
@@ -22,6 +23,8 @@ local belowZone = nil
 local prowWall = nil
 local backWall = nil
 
+local blackBox = nil
+
 local zones = {}
 zones.footing = 0
 zones.inLight = 0
@@ -34,8 +37,11 @@ local waterA = love.graphics.newImage("images/waterA.png")
 local waterB = love.graphics.newImage("images/waterB.png")
 local waterC = love.graphics.newImage("images/waterC.png")
 local water = waterA
+local water2 = waterB
 local waterUpdate = 0
 local waterOffset = 0
+local waterUpdate2 = 25
+local waterOffset2 = 0
 local levelMax = 3000
 
 local plantA = love.graphics.newImage("images/plantA.png")
@@ -152,6 +158,12 @@ local function loadRiver(world)
         newSprite.y = 50
         sprites[i] = newSprite
     end
+
+    blackBox = {}
+    blackBox.pBody = love.physics.newBody(world.physics, love.math.random(800, 1200), 500, "dynamic")
+    blackBox.shape = love.physics.newRectangleShape(0, 0, 50, 50)
+    blackBox.fixture = love.physics.newFixture(blackBox.pBody, blackBox.shape, 0.2)
+    blackBox.fixture:setUserData("item")
 end
 river.load = loadRiver
 
@@ -175,6 +187,20 @@ local function updateRiver(world, dt)
         waterUpdate = waterUpdate + 1
         waterOffset = waterOffset + 0.5
     end
+    if waterUpdate2 >= waterUpdateTime then
+        if water2 == waterA then
+            water2 = waterB
+        elseif water2 == waterB then
+            water2 = waterC
+        elseif water2 == waterC then
+            water2 = waterA
+        end
+        waterUpdate2 = 0
+        waterOffset2 = 0
+    else
+        waterUpdate2 = waterUpdate2 + 1
+        waterOffset2 = waterOffset2 + 0.5
+    end
     playerGen.updatePlayer(world, dt, zones)
     catFish.update(world, dt, zones)
 
@@ -188,19 +214,14 @@ local function drawRiver(world)
     for i = 1, #sprites do
         love.graphics.draw(sprites[i].image, sprites[i].x, sprites[i].y, 0, 0.5, 0.5, 0, sprites[i].offset)
     end
-    love.graphics.setColor(0.76, 0.18, 0.05)
-    love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
-    love.graphics.circle("fill", world.catFish.fish.pBody:getX(), world.catFish.fish.pBody:getY(), world.catFish.fish.shape:getRadius())
-    if world.player.magnet.pBody ~= nil then
-        love.graphics.setColor(0.18, 0.76, 0.05)
-        love.graphics.circle("fill", world.player.magnet.pBody:getX(), world.player.magnet.pBody:getY(), world.player.magnet.shape:getRadius())
-    end
 
-    local objects = world.map.pObjects
-    for i=1, #objects do
-        love.graphics.setColor(unpack(objects[i].color))
-        love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
-    end
+    love.graphics.push()
+    love.graphics.setColor(0.2,0.2,0.2)
+    love.graphics.translate(world.player.pBody:getX() - 450 - waterOffset2, 0)
+    love.graphics.scale(0.5,0.5)
+    love.graphics.draw(water2, -50, 750)
+    love.graphics.pop()
+
     love.graphics.setColor(0.1, 0.1, 0.1)
     love.graphics.stencil(lightStencil, "replace", 1)
     love.graphics.push()
@@ -217,6 +238,22 @@ local function drawRiver(world)
         local x = worldCopy.lampAngle
         local y = 800
         polygon = love.graphics.polygon('fill', lightPos:getX(), lightPos:getY(), x - 150, y, x + 150, y)
+    end
+
+    if debug == true then
+        love.graphics.setColor(0.76, 0.18, 0.05)
+        love.graphics.polygon("fill", blackBox.pBody:getWorldPoints(blackBox.shape:getPoints()))
+        love.graphics.circle("fill", world.player.pBody:getX(), world.player.pBody:getY(), world.player.shape:getRadius())
+        love.graphics.circle("fill", world.catFish.fish.pBody:getX(), world.catFish.fish.pBody:getY(), world.catFish.fish.shape:getRadius())
+        if world.player.magnet.pBody ~= nil then
+            love.graphics.setColor(0.18, 0.76, 0.05)
+            love.graphics.circle("fill", world.player.magnet.pBody:getX(), world.player.magnet.pBody:getY(), world.player.magnet.shape:getRadius())
+        end
+        local objects = world.map.pObjects
+        for i=1, #objects do
+            love.graphics.setColor(unpack(objects[i].color))
+            love.graphics.polygon("fill", objects[i].pBody:getWorldPoints(objects[i].pShape:getPoints()))
+        end
     end
 
     love.graphics.setFont(world.font)
@@ -257,8 +294,16 @@ function beginCallback(a, b, col)
         end
     end
 
-    if a:getUserData() == "catfish" or b:getUserData() == "catTar" then
-        
+    if a:getUserData() == "item" or b:getUserData() == "item" then
+        if a:getUserData() == "magnet" or b:getUserData() == "magnet" then
+            local magnet = worldCopy.player.magnet
+            magnet.makeWeld = true
+            if a:getUserData() == "item" then
+                magnet.weldObject = a:getBody()
+            else
+                magnet.weldObject = b:getBody()
+            end
+        end
     end
 end
 
@@ -277,10 +322,6 @@ function endCallback(a, b, col)
         elseif a:getUserData() == "dockZone" or b:getUserData() == "dockZone" then
             zones.onDock = zones.onDock - 1
         end
-    end
-
-    if a:getUserData() == "catfish" or b:getUserData() == "catfish" then
-       
     end
 end
 

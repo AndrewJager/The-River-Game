@@ -83,7 +83,7 @@ local function updatePlayer(world, dt, zones)
     elseif zones.onProw >= 1 then
         if world.keys.space and player.magnet.magnetDown == false then
             dropMagnet(world)
-            player.magnet.pBody:applyForce(50, 0)
+            player.magnet.pBody:applyForce(100, 0)
             player.locked = true
         elseif world.keys.space and player.magnet.magnetDown and player.spaceReleased  then
             player.magnet.raiseMagnet = true
@@ -93,11 +93,21 @@ local function updatePlayer(world, dt, zones)
                 raiseMagnet(world)
             else
                 player.magnet.rope:destroy()
+                if player.magnet.weld ~= nil then
+                    player.magnet.weld:destroy()
+                end
                 player.magnet.pBody:setPosition(player.pBody:getX() + 10, player.pBody:getY())
                 player.magnet.magnetDown = false
                 player.magnet.raiseMagnet = false
                 player.magnet.weld = love.physics.newWeldJoint(player.pBody, player.magnet.pBody, player.pBody:getX(), player.pBody:getY())
                 player.locked = false
+            end
+        end
+        if player.magnet.pBody ~= nil then
+            if player.magnet.makeWeld then
+                player.magnet.weld = love.physics.newWeldJoint(player.magnet.weldObject, player.magnet.pBody, player.magnet.pBody:getX(), player.magnet.pBody:getY())
+                local fixture = player.magnet.weldObject:getFixtures()
+                fixture[1]:setSensor(true)
             end
         end
     elseif zones.onBack >= 1 then
@@ -130,6 +140,7 @@ function spawnMagnet(world)
     magnet.fixture:setSensor(true)
     magnet.magnetDown = false
     magnet.weld = love.physics.newWeldJoint(player, magnet.pBody, player:getX(), player:getY())
+    magnet.makeWeld = false
 end
 
 function dropMagnet(world)
