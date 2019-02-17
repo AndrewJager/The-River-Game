@@ -124,6 +124,28 @@ local function loadRiver(world)
         newSprite.y = 50
         sprites[i] = newSprite
     end
+    local reedCount = 100
+    for i = plantCount + 1, reedCount + plantCount do
+        local choice = love.math.random(1, 4)
+        local newSprite = {}
+        if choice == 1 then
+            newSprite.image = reedA
+            newSprite.offset = -460
+        elseif choice == 2 then
+            newSprite.image = reedB
+            newSprite.offset = -510
+        elseif choice == 3 then
+            newSprite.image = reedC
+            newSprite.offset = -460
+        elseif choice == 4 then
+            newSprite.image = reedD
+            newSprite.offset = -460
+        end
+        newSprite.offset = newSprite.offset - love.math.random(0, 80)
+        newSprite.x = love.math.random(200, levelMax)
+        newSprite.y = 50
+        sprites[i] = newSprite
+    end
 end
 river.load = loadRiver
 
