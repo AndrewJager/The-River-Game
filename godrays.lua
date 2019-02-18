@@ -3,10 +3,10 @@ local rayHandler= {}
 local function createRay(raysNum, startAX, startAY, startBX, startBY, endX, endY)
 rays = {}
 	rays["amount"] = raysNum
-	rays["color"] = {0.860, 0.760, 0.058, 0.2}
-	rays["colorB"] = {0.990, 0.790, 0.058, 0.2}
+	rays["color"] = {0.819, 0.819, 0.819, 0.1}
+	rays["colorB"] = {0.819, 0.819, 0.819, 0.1}
 	rays["spreadX"] = 50
-	rays["spreadY"] = 200
+	rays["spreadY"] = 0
 	rays["startAX"] = startAX
 	rays["startAY"] = startAY
 	rays["startBX"] = startBX

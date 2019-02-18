@@ -72,13 +72,9 @@ local function menuUpdate(dt)
 end
 menu.update = menuUpdate
 
-local function menuDraw()
-    rayHandler.drawRay(rays)
-    love.graphics.push()
-    love.graphics.scale(0.41,0.41)
-    love.graphics.setColor(0.5,0.5,0.5,1)
-    love.graphics.draw(header, 0 ,0)
-    love.graphics.pop()
+local function menuDraw(world)
+    love.graphics.setFont(world.titleFont)
+    love.graphics.print("Game Over!", 300, 150)
     uare.draw()
 end
 menu.draw = menuDraw

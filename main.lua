@@ -7,6 +7,7 @@ world.level = "menu"
 world.curLevel = "menu"
 world.btnFont = love.graphics.newFont(32)
 world.font = love.graphics.newFont(12)
+world.titleFont = love.graphics.newFont(48)
 
 loader = require "mapLoader"
 local river = require "river"

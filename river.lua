@@ -54,6 +54,7 @@ local reedB = love.graphics.newImage("images/reedB.png")
 local reedC = love.graphics.newImage("images/reedC.png")
 local reedD = love.graphics.newImage("images/reedD.png")
 local sprites = {}
+local rays = {}
 
 local light = nil
 
@@ -183,6 +184,13 @@ local function loadRiver(world)
         blackBox.fixture:setFriction(blackBox.value)
         debris[i] = blackBox
     end
+    local raysCount = 15
+    for i = 1, raysCount do
+        local x = love.math.random(250, levelMax)
+        ray = rayHandler.createRay(75, x, 0, x + love.math.random(35, 70), 0, x + love.math.random(-150, 150), 600)
+        ray.spreadX = love.math.random(50, 200)
+        rays[i] = ray
+    end
 end
 river.load = loadRiver
 
@@ -200,6 +208,9 @@ local function updateRiver(world, dt)
         if items[i].pBody:isDestroyed() then
             table.remove(items,i)
         end
+    end
+    for i = 1, #rays do
+        rayHandler.updateRay(rays[i], dt)
     end
 
     local waterUpdateTime = 50
@@ -240,6 +251,9 @@ river.update = updateRiver
 
 local function drawRiver(world)
     love.graphics.translate(-world.player.pBody:getX() + 450, 0)
+    for i = 1, #rays do
+        rayHandler.drawRay(rays[i])
+    end
     love.graphics.setColor(1,1,1)
     for i = 1, #sprites do
         love.graphics.draw(sprites[i].image, sprites[i].x, sprites[i].y, 0, 0.5, 0.5, 0, sprites[i].offset)

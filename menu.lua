@@ -56,29 +56,38 @@ myButton1 = uare.new({
 
 header = love.graphics.newImage("images/header.png")
 
-rays = rayHandler.createRay(5, 175, 380, 175, 430, 280, 480)
-rays.spreadX = 45
-rays.spreadY = 0
-rays.colorA = {0.860, 0.760, 0.058, 0.1}
-rays.colorB = {0.990, 0.790, 0.058, 0.1}
+rays = rayHandler.createRay(50, 177, 375, 177, 400, 220, 480)
+rays.spreadX = 20
 rayHandler.reCreateRay(rays)
+rays2 = rayHandler.createRay(100, 450, 350, 450, 415, 350, 480)
+rays2.spreadX = 35
+rayHandler.reCreateRay(rays2)
+rays3 = rayHandler.createRay(50, 550, 350, 550, 380, 625, 480)
+rays3.spreadX = 20
+rayHandler.reCreateRay(rays3)
 
 end
 menu.load = menuCreate
 
 local function menuUpdate(dt)
     rayHandler.updateRay(rays, dt)
+    rayHandler.updateRay(rays2, dt)
+    rayHandler.updateRay(rays3, dt)
     uare.update(dt, love.mouse.getX(), love.mouse.getY())
 end
 menu.update = menuUpdate
 
 local function menuDraw()
     rayHandler.drawRay(rays)
+    rayHandler.drawRay(rays2)
+    rayHandler.drawRay(rays3)
     love.graphics.push()
     love.graphics.scale(0.41,0.41)
     love.graphics.setColor(0.5,0.5,0.5,1)
     love.graphics.draw(header, 0 ,0)
     love.graphics.pop()
+    love.graphics.setColor(0.2,0.2,0.2)
+    love.graphics.rectangle("fill", 0, 480, 900, 300)
     uare.draw()
 end
 menu.draw = menuDraw
