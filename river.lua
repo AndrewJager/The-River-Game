@@ -65,9 +65,14 @@ local function loadRiver(world)
     world.map = loader.load(world.physics)
     world.helpText = "Arrow keys to move"
     world.boatSpeed = 0
+    world.boatMin = 500
+    world.boatMax = levelMax
     world.lampAngle = 0
     world.lampOn = false
-    world.message = ""
+    world.message = "Retrive as much salvage from the riverbed as you can"
+    world.messageb = "Go to the edges of the boat to use the grabber"
+    world.messagec = "Go to the top the boat to use the spotlight and drive the boat"
+    world.messaged = "Don't fall in the water, or get eaten by the catfish"
     world.score = 0
 
     world.player = playerGen.loadPlayer(world)
@@ -320,7 +325,6 @@ local function drawRiver(world)
     love.graphics.setFont(world.font)
     love.graphics.translate(world.player.pBody:getX() - 450, 0)
     love.graphics.setColor(0.4, 0.4, 0.4)
-    love.graphics.rectangle("fill", 810, 15, 75, 75)
     if world.helpText ~= "" then
         love.graphics.rectangle("fill", 150, 15, 600, 25)
         love.graphics.setColor(1,1,1)
@@ -328,10 +332,13 @@ local function drawRiver(world)
     end
     if world.message ~= "" then
         love.graphics.setColor(0.4, 0.4, 0.4)
-        love.graphics.rectangle("fill", 150, 50, 600, 60)
+        love.graphics.rectangle("fill", 150, 500, 600, 85)
         love.graphics.setColor(1,1,1)
-        love.graphics.print(world.message, 155, 55)
-        love.graphics.print("(press h to hide)", 155, 90)
+        love.graphics.print(world.message, 155, 505)
+        love.graphics.print(world.messageb, 155, 520)
+        love.graphics.print(world.messagec, 155, 535)
+        love.graphics.print(world.messaged, 155, 550)
+        love.graphics.print("(press h to hide)", 155, 565)
     end
     love.graphics.print("Score: "..world.score, 15, 20)
 end

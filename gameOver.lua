@@ -43,7 +43,7 @@ btnStartStyle = uare.newStyle({
 myButton1 = uare.new({
     
     text = {
-    display = "Menu"
+    display = "Play again"
     },
     x = 250,
     y = 500,
@@ -75,6 +75,8 @@ menu.update = menuUpdate
 local function menuDraw(world)
     love.graphics.setFont(world.titleFont)
     love.graphics.print("Game Over!", 300, 150)
+    love.graphics.setFont(world.btnFont)
+    love.graphics.print("Your score was: "..world.score, 310, 250)
     uare.draw()
 end
 menu.draw = menuDraw

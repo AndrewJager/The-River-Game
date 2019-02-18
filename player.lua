@@ -36,9 +36,17 @@ local function updatePlayer(world, dt, zones)
         end
     end
 
+    if player.magnet.pBody == nil then
+        spawnMagnet(world)
+    end
+
+    if player.pBody:getY() > 400 then
+        world.level = "gameOver"
+    end
+
     --actions
     if zones.inLight >= 1 then
-        world.helpText = "Press Z and C to rotate light. X to turn light on/off. Press A and D to drive boat"
+        world.helpText = "X to turn light on/off. Press Z and C to rotate light. Press A and D to drive boat"
         if world.keys.x == false then
             world.cReleased = true
         end
@@ -55,12 +63,18 @@ local function updatePlayer(world, dt, zones)
         end
         if world.keys.a then
             world.boatSpeed = -75
-            world.lampAngle = 0
-            world.lampOn = false
+            if player.pBody:getX() < world.boatMin then
+                world.boatSpeed = 0
+            end
+            --world.lampAngle = 0
+            --world.lampOn = false
         elseif world.keys.d then
             world.boatSpeed = 75
-            world.lampAngle = 0
-            world.lampOn = false
+            if player.pBody:getX() > world.boatMax then
+                world.boatSpeed = 0
+            end
+            --world.lampAngle = 0
+            --world.lampOn = false
         else
             world.boatSpeed = 0
         end
@@ -70,17 +84,11 @@ local function updatePlayer(world, dt, zones)
             world.lampAngle = world.lampAngle + 15
         end
     elseif zones.onBelow >= 1 then
-        world.helpText = "Choose tool: 1 for magnet"
-        if world.keys.one then
-            if player.tool ~= "magnet" then
-                spawnMagnet(world)
-                world.helpText = "Press space at the edge of the boat to drop the magnet. Press space again to bring it back"
-                player.tool = "magnet"
-            end
-        end
+        
     elseif zones.onDock >= 1 then
         world.helpText = "Arrow keys to move and jump"
     elseif zones.onProw >= 1 then
+        world.helpText = "Space to drop grabber. Space to retrive grabber"
         if world.keys.space and player.magnet.magnetDown == false then
             dropMagnet(world)
             player.magnet.pBody:applyForce(100, 0)
@@ -119,6 +127,7 @@ local function updatePlayer(world, dt, zones)
             end
         end
     elseif zones.onBack >= 1 then
+        world.helpText = "Space to drop grabber. Space to retrive grabber"
         if world.keys.space and player.magnet.magnetDown == false then
             dropMagnet(world)
             player.magnet.pBody:applyForce(-100, 0)
