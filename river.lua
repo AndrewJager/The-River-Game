@@ -338,7 +338,7 @@ function beginCallback(a, b, col)
         elseif a:getUserData() == "dockZone" or b:getUserData() == "dockZone" then
             zones.onDock = zones.onDock + 1
         elseif a:getUserData() == "catfish" or b:getUserData() == "catfish" then
-            worldCopy.player.dead = true
+            worldCopy.level = "gameOver"
         end
     end
 

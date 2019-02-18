@@ -138,7 +138,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat",
+            ["data"] = "boatWall",
             ["isTrigger"] = false
           }
         },
@@ -305,7 +305,7 @@ return {
           name = "catTarD",
           type = "dynamic",
           shape = "rectangle",
-          x = 852.5,
+          x = 768.5,
           y = 525,
           width = 23,
           height = 20,
@@ -359,7 +359,7 @@ return {
           name = "catTarB",
           type = "dynamic",
           shape = "rectangle",
-          x = 108.5,
+          x = 128.5,
           y = 525,
           width = 23,
           height = 20,
@@ -494,7 +494,7 @@ return {
           properties = {
             ["LockRot"] = false,
             ["color"] = "#ff30ff22",
-            ["data"] = "boat",
+            ["data"] = "boatWall",
             ["isTrigger"] = false
           }
         },

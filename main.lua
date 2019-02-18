@@ -11,6 +11,7 @@ world.font = love.graphics.newFont(12)
 loader = require "mapLoader"
 local river = require "river"
 local menu = require "menu"
+local gameOver = require "gameOver"
 
 function love.load()
     love.window.setTitle("The River")
@@ -24,6 +25,8 @@ function love.update(dt)
         menu.update(dt)
     elseif world.level == "river" then
         river.update(world, dt)
+    elseif world.level == "gameOver" then
+        gameOver.update(dt)
     end
 
     if world.level ~= world.curLevel then
@@ -31,6 +34,8 @@ function love.update(dt)
             menu.load(world)
         elseif world.level == "river" then
             river.load(world)
+        elseif world.level == "gameOver" then
+            gameOver.load(world)
         end
         world.curLevel = world.level
     end
@@ -41,6 +46,8 @@ function love.draw()
         menu.draw()
     elseif world.level == "river" then
         river.draw(world)
+    elseif world.level == "gameOver" then
+        gameOver.draw(world)
     end
 end
 

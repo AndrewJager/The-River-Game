@@ -42,7 +42,7 @@
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
-    <property name="data" value="boat"/>
+    <property name="data" value="boatWall"/>
     <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
@@ -114,7 +114,7 @@
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="19" name="catTarD" type="dynamic" x="852.5" y="525" width="23" height="20">
+  <object id="19" name="catTarD" type="dynamic" x="768.5" y="525" width="23" height="20">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#9400ff11"/>
@@ -138,7 +138,7 @@
     <property name="isTrigger" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="22" name="catTarB" type="dynamic" x="108.5" y="525" width="23" height="20">
+  <object id="22" name="catTarB" type="dynamic" x="128.5" y="525" width="23" height="20">
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#9400ff11"/>
@@ -198,7 +198,7 @@
    <properties>
     <property name="LockRot" type="bool" value="false"/>
     <property name="color" type="color" value="#ff30ff22"/>
-    <property name="data" value="boat"/>
+    <property name="data" value="boatWall"/>
     <property name="isTrigger" type="bool" value="false"/>
    </properties>
   </object>
