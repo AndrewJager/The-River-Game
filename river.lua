@@ -56,6 +56,7 @@ local reedD = love.graphics.newImage("images/reedD.png")
 local fishImage = love.graphics.newImage("images/catfish.png")
 local boatImage = love.graphics.newImage("images/boat.png")
 local playerImage = love.graphics.newImage("images/player.png")
+local dockImage = love.graphics.newImage("images/dock.png")
 local sprites = {}
 local rays = {}
 
@@ -279,9 +280,11 @@ local function drawRiver(world)
         love.graphics.line(world.player.pBody:getX(), world.player.pBody:getY(), world.player.magnet.pBody:getX(), world.player.magnet.pBody:getY())
     end
 
-    love.graphics.setColor(1,1,1)
-    love.graphics.draw(boatImage, deck.pBody:getX(), deck.pBody:getY(), deck.pBody:getAngle(), 0.5, 0.5, 470, 305)
+    love.graphics.setColor(0.5,0.5,0.5)
     love.graphics.draw(playerImage, world.player.pBody:getX(), world.player.pBody:getY(), 0, 0.4, 0.4, 60, 100)
+    love.graphics.setColor(1,1,1)
+    love.graphics.draw(dockImage, -70, 105, 0, 0.3, 0.3)
+    love.graphics.draw(boatImage, deck.pBody:getX(), deck.pBody:getY(), deck.pBody:getAngle(), 0.5, 0.5, 470, 305)
     local x, y = world.catFish.fish.pBody:getLinearVelocity()
     if y == 0 then
         if x > 0 then
