@@ -6,7 +6,7 @@ local playerGen = require "player"
 local catFish = require "catfish"
 local rayHandler = require "godrays"
 local worldCopy = {} --Hacky, but I don't care
-local debug = true
+local debug = false
 
 local boatGod = nil
 local deck = nil
@@ -53,6 +53,8 @@ local reedA = love.graphics.newImage("images/reedA.png")
 local reedB = love.graphics.newImage("images/reedB.png")
 local reedC = love.graphics.newImage("images/reedC.png")
 local reedD = love.graphics.newImage("images/reedD.png")
+local fishImage = love.graphics.newImage("images/catfish.png")
+local boatImage = love.graphics.newImage("images/boat.png")
 local sprites = {}
 local rays = {}
 
@@ -275,6 +277,9 @@ local function drawRiver(world)
         love.graphics.setColor(0.15, 0.1, 0.2)
         love.graphics.line(world.player.pBody:getX(), world.player.pBody:getY(), world.player.magnet.pBody:getX(), world.player.magnet.pBody:getY())
     end
+
+    love.graphics.setColor(1,1,1)
+    love.graphics.draw(boatImage, deck.pBody:getX(), deck.pBody:getY(), deck.pBody:getAngle(), 0.5, 0.5, 470, 305)
 
     love.graphics.setColor(0.380, 0.368, 0.360)
     for i=1, #items do
