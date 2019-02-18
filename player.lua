@@ -109,7 +109,7 @@ local function updatePlayer(world, dt, zones)
                     world.score = world.score + score
                     weldObject:destroy()
                 end
-                player.magnet.pBody:setPosition(player.pBody:getX() + 10, player.pBody:getY())
+                player.magnet.pBody:setPosition(player.pBody:getX(), player.pBody:getY())
                 player.magnet.magnetDown = false
                 player.magnet.raiseMagnet = false
                 player.magnet.canWeld = true
@@ -148,7 +148,7 @@ local function updatePlayer(world, dt, zones)
                     world.score = world.score + score
                     weldObject:destroy()
                 end
-                player.magnet.pBody:setPosition(player.pBody:getX() + 10, player.pBody:getY())
+                player.magnet.pBody:setPosition(player.pBody:getX(), player.pBody:getY())
                 player.magnet.magnetDown = false
                 player.magnet.raiseMagnet = false
                 player.magnet.canWeld = true
@@ -177,7 +177,7 @@ player.updatePlayer = updatePlayer
 function spawnMagnet(world)
     local magnet = world.player.magnet
     local player = world.player.pBody
-    magnet.pBody = love.physics.newBody(world.physics, player:getX() + 10, player:getY(), "dynamic")
+    magnet.pBody = love.physics.newBody(world.physics, player:getX(), player:getY(), "dynamic")
     magnet.pBody:setFixedRotation(true)
     magnet.shape = love.physics.newCircleShape(5)
     magnet.fixture = love.physics.newFixture(magnet.pBody, magnet.shape, 1) 
