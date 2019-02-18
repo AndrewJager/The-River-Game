@@ -119,7 +119,35 @@ local function updatePlayer(world, dt, zones)
             end
         end
     elseif zones.onBack >= 1 then
-
+        if world.keys.space and player.magnet.magnetDown == false then
+            dropMagnet(world)
+            player.magnet.pBody:applyForce(-100, 0)
+            player.locked = true
+        elseif world.keys.space and player.magnet.magnetDown and player.spaceReleased  then
+            player.magnet.raiseMagnet = true
+        end
+        if player.magnet.raiseMagnet then
+            if player.magnet.rope:getMaxLength() > 25 then
+                raiseMagnet(world)
+            else
+                player.magnet.rope:destroy()
+                if player.magnet.weld:isDestroyed() == false then
+                    player.magnet.weld:destroy()
+                    local weldObject = player.magnet.weldObject
+                    local fixture = player.magnet.weldObject:getFixtures()
+                    local score = fixture[1]:getFriction()
+                    world.score = world.score + score
+                    weldObject:destroy()
+                end
+                player.magnet.pBody:setPosition(player.pBody:getX() + 10, player.pBody:getY())
+                player.magnet.magnetDown = false
+                player.magnet.raiseMagnet = false
+                player.magnet.canWeld = true
+                player.magnet.makeWeld = false
+                player.magnet.weld = love.physics.newWeldJoint(player.pBody, player.magnet.pBody, player.pBody:getX(), player.pBody:getY())
+                player.locked = false
+            end
+        end
     else
         world.helpText = ""
         world.boatSpeed = 0
@@ -155,7 +183,7 @@ end
 function dropMagnet(world)
     local magnet = world.player.magnet
     local player = world.player.pBody
-    local ropeLength = 300
+    local ropeLength = 325
     magnet.weld:destroy()
     magnet.magnetDown = true
     magnet.raise = false

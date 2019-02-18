@@ -167,7 +167,7 @@ local function loadRiver(world)
         blackBox.value = love.math.random(50, 100)
         blackBox.pBody = love.physics.newBody(world.physics, love.math.random(800, levelMax), 500, "dynamic")
         blackBox.shape = love.physics.newRectangleShape(0, 0, blackBox.value, 50)
-        blackBox.fixture = love.physics.newFixture(blackBox.pBody, blackBox.shape, 0.1)
+        blackBox.fixture = love.physics.newFixture(blackBox.pBody, blackBox.shape, 0.05)
         blackBox.fixture:setUserData("item")
         blackBox.fixture:setFriction(blackBox.value)
         items[i] = blackBox
@@ -251,6 +251,11 @@ local function drawRiver(world)
     love.graphics.scale(0.5,0.5)
     love.graphics.draw(water2, -50, 750)
     love.graphics.pop()
+
+    if world.player.magnet.pBody ~= nil then
+        love.graphics.setColor(0.15, 0.1, 0.2)
+        love.graphics.line(world.player.pBody:getX(), world.player.pBody:getY(), world.player.magnet.pBody:getX(), world.player.magnet.pBody:getY())
+    end
 
     love.graphics.setColor(0.380, 0.368, 0.360)
     for i=1, #items do
